@@ -14,44 +14,26 @@ import matplotlib, numpy
 
 class Position(object):
     """
-    A Position represents a location in a two-dimensional room.
+    A Position represents a location on a two-dimensional board.
     """
     def __init__(self, x, y):
-        """
-        Initializes a position with coordinates (x, y).
-        """
         self.x = x
         self.y = y
+        
     def getX(self):
         return self.x
+    
     def getY(self):
         return self.y
         
-    def getNewPosition():
-        raise NotImplementedError
+>>    def getNewPosition(): <<
 
-class RectangularRoom(object):
-    """
-    A RectangularRoom represents a rectangular region containing clean or dirty
-    tiles.
-
-    A room has a width and a height and contains (width * height) tiles. At any
-    particular time, each of these tiles is either clean or dirty.
-    """
+class Board(object):
     def __init__(self, width, height):
-        """
-        Initializes a rectangular room with the specified width and height.
-
-        Initially, no tiles in the room have been cleaned.
-
-        width: an integer > 0
-        height: an integer > 0
-        """
         self.width = width
         self.height = height
-        #raise NotImplementedError
         
-    def isPositionInRoom(self, pos):
+    def isPositionOnBoard(self, pos):
         """
         Return True if pos is inside the room.
 
