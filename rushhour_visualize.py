@@ -4,12 +4,6 @@ Created on Fri Nov 04 22:07:28 2016
 
 @author: Jim
 """
-
-# Problem Set 6:
-# Visualization code for simulated robots.
-#
-# See the problem set for instructions on how to use this code.
-
 import math
 import time
 
