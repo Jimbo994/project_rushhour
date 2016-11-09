@@ -1,7 +1,8 @@
 class CarHorizontal(object):
-    def __init__(self, board):
+    def __init__(self, board, size):
         self.board = board
         self.position = position
+        self.size = size
 
     def getCarPosition(self):
         return self.pos
@@ -13,9 +14,10 @@ class CarHorizontal(object):
         // Ik weet niet of dit een functie moet zijn of class? //
 
 class CarRed(object):
-    def __init__(self, board):
+    def __init__(self, board, size):
         self.board = board
         self.position = position
+        self.size = size
 
     def getCarPosition(self):
         return self.pos
