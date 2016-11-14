@@ -7,8 +7,7 @@ start of rush hour game
 @author: Jim
 """
 import math
-import random
-import rushhour_visualize
+# import random
 import pylab
 import matplotlib, numpy
 
@@ -49,10 +48,3 @@ class Board(object):
             return False
         else:
             return True
-
-def runSimulation(width, height):
-        anim = rushhour_visualize.BoardVisualization(width, height)
-        anim.done()
-
-    
-runSimulation(10,10)
