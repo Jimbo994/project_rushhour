@@ -1,31 +1,22 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri Nov 04 21:40:57 2016
+# JIM
 
-start of rush hour game
-
-@author: Jim
-"""
 import math
-# import random
 import pylab
 import matplotlib, numpy
 
 class Position(object):
-    """
-    A Position represents a location on a two-dimensional board.
-    """
+# location on 2D array board 
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        
+    
+    # get X & Y coordinates
     def getX(self):
         return self.x
     
     def getY(self):
         return self.y
-        
->>    def getNewPosition(): <<
 
 class Board(object):
     def __init__(self, width, height):
@@ -33,12 +24,7 @@ class Board(object):
         self.height = height
         
     def isPositionOnBoard(self, pos):
-        """
-        Return True if pos is inside the room.
-
-        pos: a Position object.
-        returns: True if pos is in the room, False otherwise.
-        """
+        # check if position is on board. True = in room.
         checkX = pos.getX()
         checkY = pos.getY()
         
