@@ -1,11 +1,7 @@
 import sys
-import time
-import rushhour_visualize
 from vehicle import Vehicle
 
 class RushHour(object):
-    """A configuration of a single Rush Hour board."""
-
     def __init__(self, vehicles, width = 6, height = 6):
         """
         Create a new Rush Hour board.
@@ -16,29 +12,27 @@ class RushHour(object):
         self.vehicles = vehicles
         self.width = width
         self.height = height
-
+    
+    # make sure the board has an \n at the end of the line
     def __str__(self):
-        s = '_' * 8 + '\n'
         for line in self.get_board():
             s += '|{0}|\n'.format(''.join(line))
-        s += '_' * 8 + '\n'
-        print "Welcome to RUSH HOUR"
-        time.sleep(2)
-        # print s
         return s
-
+    
+    # make the board
     def get_board(self):
-        """
-        Representation of the Rush Hour board as a 2D list of strings
-        """
         # stackoverflow.com/questions/6667201/how-to-define-two-dimensional-array-in-python
         board = [['_' for x in range(self.width)] for y in range(self.height)]
-
+        
+        # if there is a car on the board, replace the '_' with the id of the vehicle
         for vehicle in self.vehicles:
             x, y = vehicle.x, vehicle.y
+            # if the vehicle is placed horizontally
+            # store the id of the vehicle on board[y][x]
             if vehicle.orientation == 'H':
                 for i in range(vehicle.length):
                     board[y][x+i] = vehicle.id
+            # if the vehicle is placed vertically
             else:
                 for i in range(vehicle.length):
                     board[y+i][x] = vehicle.id
@@ -58,8 +52,3 @@ if __name__ == '__main__':
     with open(filename) as rushhour_file:
         rushhour = load_file(rushhour_file)
 
-# def runSimulation(width, height):
-#         anim = rushhour_visualize.BoardVisualization(width, height)
-#         anim.done()
-#
-# runSimulation(6,6)
