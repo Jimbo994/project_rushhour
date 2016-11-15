@@ -1,14 +1,10 @@
+# LISA
 import sys
 from vehicle import Vehicle
 
 class RushHour(object):
     def __init__(self, vehicles, width = 6, height = 6):
-        """
-        Create a new Rush Hour board.
-
-        Arguments:
-            vehicles: a set of Vehicle objects.
-        """
+        # create new board with w = 6, h = 6 and set of vehicle objects.
         self.vehicles = vehicles
         self.width = width
         self.height = height
@@ -24,7 +20,7 @@ class RushHour(object):
         # stackoverflow.com/questions/6667201/how-to-define-two-dimensional-array-in-python
         board = [['_' for x in range(self.width)] for y in range(self.height)]
         
-        # if there is a car on the board, replace the '_' with the id of the vehicle
+        # if there is a car on the board, replace the original '_' with id of vehicle
         for vehicle in self.vehicles:
             x, y = vehicle.x, vehicle.y
             # if the vehicle is placed horizontally
@@ -36,5 +32,6 @@ class RushHour(object):
             else:
                 for i in range(vehicle.length):
                     board[y+i][x] = vehicle.id
+# >> WAAROM [Y][X], MOET DIT NIET [X][Y] ZIJN? <<                  
         return board
 
