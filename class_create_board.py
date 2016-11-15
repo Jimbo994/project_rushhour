@@ -32,6 +32,10 @@ class RushHour(object):
             else:
                 for i in range(vehicle.length):
                     board[y+i][x] = vehicle.id
-# >> WAAROM [Y][X], MOET DIT NIET [X][Y] ZIJN? <<                  
+# >> WAAROM [Y][X], MOET DIT NIET [X][Y] ZIJN? << 
+# kan wel, maar denk dat dit makkelijker is om over na te denken?
+# want hierbij kan je het als een soort grafiek voor je zien met zo'n verticale y-as en een horizontale x-as
+# en omdat het logischer is om van links naar rechts te lezen in plaats van boven naar beneden of beneden naar boven hebben we [Y][X]
+# we kunnen het natuurlijk ook omdraaien als iedereen dat liever heeft :)
         return board
 
