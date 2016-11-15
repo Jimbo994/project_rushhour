@@ -38,17 +38,3 @@ class RushHour(object):
                     board[y+i][x] = vehicle.id
         return board
 
-def load_file(rushhour_file):
-    vehicles = []
-    for line in rushhour_file:
-        line = line[:-1] if line.endswith('\n') else line
-        id, x, y, orientation = line
-        vehicles.append(Vehicle(id, int(x), int(y), orientation))
-    print RushHour(set(vehicles))
-    return RushHour(set(vehicles))
-
-if __name__ == '__main__':
-    filename = sys.argv[1]
-    with open(filename) as rushhour_file:
-        rushhour = load_file(rushhour_file)
-
