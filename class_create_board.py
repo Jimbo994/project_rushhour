@@ -2,7 +2,7 @@
 import sys
 from vehicle import Vehicle
 
-class RushHour(object):
+class Board(object):
     def __init__(self, vehicles, width = 6, height = 6):
         # create new board with w = 6, h = 6 and set of vehicle objects.
         self.vehicles = vehicles
