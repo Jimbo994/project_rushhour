@@ -1,12 +1,14 @@
 import sys
 
+# keeps track of the Position of a vehicle
 class Position(object):
     def __init__(self, x, y):
         self.x = x
         print "Position x: " + str(self.x)
         self.y = y
         print "Position y: " + str(self.y)
-
+    
+    # to be able to use x and y in class 
     def get_x(self):
         return self.x
     def get_y(self):
@@ -59,24 +61,31 @@ class Vehicle(object):
             print "New vehicle position is on board."
         else:
             print "ERROR: new vehicle position is not on board."
+    
+    # def get_moves(self):
+        # deze functie callen om in queue te stoppen?
+            # als auto horizontaal is
+                # naar links gaan
+                    # check of er een auto is die op x-1 staat
+                # naar rechts gaan
+                    # check of auto op x+1+i staat
+            # als auto verticaal is
+                    # check of er een auto is die op x-1 staat
+                # naar rechts gaan
+                    # check of auto op x+1+i staat
 
-    def getx(self):
-        return self.x
-    def gety(self):
-        return self.y
-    def getlength(self):
-        return self.length
-    def getid(self):
-        return self.id
-    def getorientation(self):
-        return self.orientation
-
+    # algoritme
+        # get_moves callen per auto
+        # check for board state
+        # alle mogelijke moves van een auto
+        # moves hier maken 
+        # opslaan welke moves er zijn gemaakt met welke auto
+            # tuple aanmaken
 
 class Board(object):
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        # self.vehicles = vehicles
 
     def __str__(self):
         block = ''
@@ -96,6 +105,7 @@ class Board(object):
         else:
             return True
 
+    # we don't need this, just for visualisation
     def get_board(self):
         board = [['_' for x in range(self.width)] for y in range(self.height)]
 
@@ -115,19 +125,28 @@ class Board(object):
         return board
 
 if __name__ == '__main__':
+    # filename is second argument given in command line
     filename = sys.argv[1]
     with open(filename) as file:
+        # make a new array
         vehicles = []
         for line in file:
+            # store a line in variable 'line' but leave the '\n' out
             line = line[:-1]
+            # store every value that's in line in id - y - x - orientation
             id, y, x, orientation = line
+            # y and x values are letters, convert these to their ascii values (ord) and convert to string (str)
             y = str(ord(y) - 48)
             x = str(ord(x) - 48)
+            # test test, we can leave this out later
             print "ID: " + id
             print "Y: " + y
             print "X: " + x
+            # send the values to class Vehicle and store this is vehicles
             vehicle = Vehicle(id, x, y, orientation)
+            # store all the vehicle variables in the vehicles array that we just made
             vehicles.append(vehicle)
+        # make a board of width = 6 and height = 6
         board = Board(6, 6)
         print board
             # pos = Position(x, y)
