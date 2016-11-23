@@ -1,4 +1,7 @@
 import sys
+#J. vehicles hier algemeen verklaard zodat we er gebruik van kunnen
+#J. maken in get_moves, volgensm mij is dit nodig. maar correct me if im wrong
+#vehicles = []
 
 # keeps track of the Position of a vehicle
 class Position(object):
@@ -62,14 +65,36 @@ class Vehicle(object):
         else:
             print "ERROR: new vehicle position is not on board."
     
-    # def get_moves(self):
+    #def get_moves(self):
         # deze functie callen om in queue te stoppen?
-            # als auto horizontaal is
-                # naar links gaan
-                    # check of er een auto is die op x-1 staat
-                # naar rechts gaan
-                    # check of auto op x+1+i staat
-            # als auto verticaal is
+        #for v in self.vehicles:
+            # indien horizontaal, kan de auto alleen naar links of rechts bewegen.
+            #if v.orientation == 'H':
+                # Naar links beweeg functie
+                # check of er een auto is die op x-1 staat of of het buiten de doos is.
+                #if v.x -1 >= 0 and v.x - 1 = self.vehicles.x
+                    # naar rechts gaan 
+                    # Dit is gedaan door een nieuwe vehicle aan te maken met een andere x coordinaat
+                    #new_v = Vehicle(v.id, v.x -1, v.y, v.orientation)
+                    # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
+                    #new_vehicles == self.vehicles
+                    #new_vehicles.remove(v)
+                    #new_vehicles.add(new_v)
+                    # we hebben nu dus eigenlijk een kind gemaakt van de oude configuratie, deze kunnen we nu toevoegen aan de queue.
+                    # dus wellicht hier dan deze functie oproepen
+                    # enqueue.vehicles
+                    # Alleen misschien moeten we het eerst nog terug converteren naar een string. misschien omkeren van de code in INIT
+                    # Ik heb namelijk een print gemaakt van de vehicle[] array en deze ziet er dan zo uit:
+                    # [<__main__.Vehicle object at 0x000000000AE51EB8>, 
+                    #<__main__.Vehicle object at 0x000000000B3AA278>, 
+                    #<__main__.Vehicle object at 0x000000000B1C8C50>, 
+                    #<__main__.Vehicle object at 0x000000000B1C8EF0>]  
+                    # Jij een idee Lisa?
+                    
+                # check of auto op x+1+i staat
+
+                    
+            #3if v.orientation == 'V':
                     # check of er een auto is die op x-1 staat
                 # naar rechts gaan
                     # check of auto op x+1+i staat
@@ -91,7 +116,7 @@ class Board(object):
         block = ''
         for line in self.get_board():
             block = block + '{0}\n'.format(''.join(line))
-        print block
+        #print block
         return block
 
     def is_position_on_board(self, pos):
@@ -106,22 +131,36 @@ class Board(object):
             return True
 
     # we don't need this, just for visualisation
+    # J. Ik denk dat we deze wel nodig hebben voor de get_moves om te checken of er een auto staat op de positie
     def get_board(self):
         board = [['_' for x in range(self.width)] for y in range(self.height)]
+        print board[1][1]
+        
+        for vehicle in vehicles:
+            orientation = vehicle.orientation
+            
+            if vehicle.id >= 'A' and vehicle.id <= 'G':
+                vehicle.length = 2
+            elif vehicle.id >= 'O' and vehicle.id <= 'Z':
+                vehicle.length = 3
 
-        for vehicle in range(1):
-            orientation = 'H'
-            length = 3
-            y = 0
-            x = 2
-            id = 'A'
+            vehicle.y = y
+            print y
+            vehicle.x = x
+            print x
+            vehicle.id = id
+            
+            """
             if orientation == 'H':
-                for i in range(length):
-                    board[y][x + i] = id
+                for i in range(vehicle.length):
+                    board[y][x+i] = vehicle.id
             else:
-                for i in range(length):
-                    board[y + i][x] = id
+                for i in range(vehicle.length):
+                    board[y+i][x] = vehicle.id
         print board
+        """
+        
+        
         return board
 
 if __name__ == '__main__':
@@ -134,19 +173,47 @@ if __name__ == '__main__':
             # store a line in variable 'line' but leave the '\n' out
             line = line[:-1]
             # store every value that's in line in id - y - x - orientation
-            id, y, x, orientation = line
+            id, x, y, orientation = line
             # y and x values are letters, convert these to their ascii values (ord) and convert to string (str)
-            y = str(ord(y) - 48)
-            x = str(ord(x) - 48)
+            y = int(ord(y) - 65)
+            print y
+            print type(y)
+            x = int(ord(x) - 65)
             # test test, we can leave this out later
             print "ID: " + id
-            print "Y: " + y
-            print "X: " + x
+            print y
+            print x
             # send the values to class Vehicle and store this is vehicles
             vehicle = Vehicle(id, x, y, orientation)
+        
             # store all the vehicle variables in the vehicles array that we just made
             vehicles.append(vehicle)
+            print vehicles
+            #print vehicles
         # make a board of width = 6 and height = 6
-        board = Board(6, 6)
+        board = Board(20, 20)
         print board
             # pos = Position(x, y)
+
+#Voorbeeld van hoe een Queue opgezet kan worden in python. Deze link geeft chille voorbeelden van hoe je de functies kan oproepen
+# http://ice-web.cc.gatech.edu/ce21/1/static/audio/static/pythonds/BasicDS/ImplementingaQueueinPython.html
+# Bij een gevonden configuratie kan bijvoorbeeld gecalld worden configuratie.enqueue en dan zit hij in de queue op de 0 plek.
+# bij dequeue wordt dan het laatste item uit de array gepopt, die is tenslotte als eerste toegevoegd. (First in First out)
+
+class Queue:
+    def __init__(self):
+        self.items = []
+
+    def isEmpty(self):
+        return self.items == []
+
+    def enqueue(self, item):
+        self.items.insert(0,item)
+
+    def dequeue(self):
+        return self.items.pop()
+
+    def size(self):
+        return len(self.items)
+        
+
