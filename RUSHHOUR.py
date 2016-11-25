@@ -80,7 +80,7 @@ class Vehicle(object):
                     # Dit is gedaan door een nieuwe vehicle aan te maken met een andere x coordinaat
                     new_v = Vehicle(v.id, v.x -1, v.y, v.orientation)
                     # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
-                    new_vehicles == vehicles
+                    new_vehicles = vehicles
                     new_vehicles.remove(v)
                     new_vehicles.add(new_v)
                     # we hebben nu dus eigenlijk een kind gemaakt van de oude configuratie, deze kunnen we nu toevoegen aan de queue.
@@ -161,34 +161,35 @@ class Board(object):
         board = [['_' for w in range(self.width)] for h in range(self.height)]
     
         
-        for vehicle in vehicles:
-            orientation = vehicle.orientation
+        #for vehicle in vehicles:
+            #orientation = vehicle.orientation
             
-            if vehicle.id >= 'A' and vehicle.id <= 'G':
-                vehicle.length = 2
-            elif vehicle.id >= 'O' and vehicle.id <= 'Z':
-                vehicle.length = 3
+            #if vehicle.id >= 'A' and vehicle.id <= 'G':
+                #vehicle.length = 2
+            #elif vehicle.id >= 'O' and vehicle.id <= 'Z':
+                #vehicle.length = 3
                 
         # Voor de nieuwe coordinaten gaat dit dan als volgt worden.
-        #for vehicle in vehicles:
-             #if vehicle.id >= 'A' and vehicle.id <= 'Z':
-                #vehicle.length = 2
-            #elif vehicle.id >= 'a' and vehicle.id <= 'z':
-                #vehicle.length = 3
+        for vehicle in vehicles:
+             orientation = vehicle.orientation
+             if vehicle.id >= 'A' and vehicle.id <= 'Z':
+                vehicle.length = 2
+             elif vehicle.id >= 'a' and vehicle.id <= 'z':
+                vehicle.length = 3
 
-            y = vehicle.y
-            #print y
-            x = vehicle.x
-            #print x
-            id = vehicle.id
+             y = vehicle.y
+             print y
+             x = vehicle.x
+             print x
+             id = vehicle.id
             
             
-            if orientation == 'H':
-                for i in range(vehicle.length):
-                    board[y][x+i] = id
-            else:
-                for i in range(vehicle.length):
-                    board[y+i][x] = id
+             if orientation == 'H':
+                 for i in range(vehicle.length):
+                     board[y][x+i] = id
+             else:
+                 for i in range(vehicle.length):
+                     board[y+i][x] = id
         #print board
         
         return board
@@ -245,6 +246,7 @@ class Queue:
     def size(self):
         return len(self.items)
         
+        
 #class BreadthFirst(board):
         # Eerst de benodigde dicts aanmaken en de queue
         # Hier wat info over dicts in python https://developmentality.wordpress.com/2012/03/30/three-ways-of-creating-dictionaries-in-python/
@@ -262,14 +264,14 @@ class Queue:
             # dan halen we het board uit de Queue 
             # maar ik weet dus niet zeker of het slim is om te zeggen dequeue(board) Misschien slimmer om gewoon het item dat het eerste erin is gestopt te poppen.
             # want later in de code enqueun we de moves uit vehicle.get_moves en dan heten ze dus ook move... toch?
-            #Q.dequeue()
+            #new_vehicle = Q.dequeue()
             
             # als het bord al in de old_boards staat dan doen we er niks mee en gaan we door
             #if board in old_boards:
                 #continue
             # als we hem nog niet in de old_boards hadden dan moet ie er bij.
             #else:
-                #old_boards.add(board)
+                #old_boards[] =  board
                 
             # Nu checken of het bord al een oplossing is
             # we moeten dus gaan kijken of auto met ID X dan op de juiste positie staat. 
@@ -281,7 +283,7 @@ class Queue:
             
             # wat misschien ook kan is
             
-            # if for vehicle in new_vehicles 
+            #if for vehicle in new_vehicles 
             
             # deze waardes gelden:
                 #vehicle.id = X
