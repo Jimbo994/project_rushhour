@@ -35,6 +35,7 @@ class Vehicle(object):
         for v in self.vehicles:
             # check voor horizontale orientatie
             if v.orientation == 'H':
+                
                 # check of auto naar links kan
                 if v.x - 1 >= 0 and board[v.y][v.x - 1] == '_':
                     # move de vehicle, door nieuwe vehicle te maken met nieuwe x, die in array te zetten en oude weg te halen
@@ -66,7 +67,7 @@ class Vehicle(object):
                     new_vehicles.add(new_v)
                     yield Vehicle(new_vehicles)
 
-            #indien verticaal alleen omhoog en omlaag bewegen mogelijk.
+            # check voor verticale orientatie
             if v.orientation == 'V':
                 # check if auto omhoog kan
                 if v.y + v.length >= 0 and board[v.y + v.length][v.x] == '_':
@@ -102,7 +103,7 @@ class Board(object):
     def get_board(self):
         board = [['_' for w in range(self.width)] for h in range(self.height)]
 
-        # Voor de nieuwe coordinaten gaat dit dan als volgt worden.
+        # Voor de nieuwe coordinaten gaat dit dan als volgt worden:
         for vehicle in vehicles:
             orientation = vehicle.orientation
             if vehicle.id >= 'A' and vehicle.id <= 'Z' or vehicle.id == '!' or vehicle.id == 'x':
