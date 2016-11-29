@@ -30,17 +30,6 @@ class Vehicle(object):
         self.y = y
         self.orientation = orientation
 
-
-        if self.id >= 'A' and self.id <= 'G':
-            self.length = 2
-        elif self.id >= 'O' and self.id <= 'Z':
-            self.length = 3
-
-        # self.position = position
-
-        # self.board = board
-        #self.pos = self.get_position(x, y)
-
     def get_moves(self):
         board = self.get_board()
 
