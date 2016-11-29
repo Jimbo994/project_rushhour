@@ -123,21 +123,12 @@ class Board(object):
     def get_board(self):
         board = [['_' for w in range(self.width)] for h in range(self.height)]
 
-
-        #for vehicle in vehicles:
-            #orientation = vehicle.orientation
-
-            #if vehicle.id >= 'A' and vehicle.id <= 'G':
-                #vehicle.length = 2
-            #elif vehicle.id >= 'O' and vehicle.id <= 'Z':
-                #vehicle.length = 3
-
         # Voor de nieuwe coordinaten gaat dit dan als volgt worden.
         for vehicle in vehicles:
              orientation = vehicle.orientation
-             if vehicle.id >= 'A' and vehicle.id <= 'Z' or vehicle.id == '!':
+             if vehicle.id >= 'A' and vehicle.id <= 'Z' or vehicle.id == '!' or vehicle.id == 'x':
                 vehicle.length = 2
-             elif vehicle.id >= 'a' and vehicle.id <= 'z':
+             elif vehicle.id >= 'a' and vehicle.id <= 'w':
                 vehicle.length = 3
 
              y = vehicle.y
