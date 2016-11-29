@@ -6,9 +6,7 @@ new_vehicles = []
 class position(object):
     def __init__(self, x, y):
         self.x = x
-        #print "position x: " + str(self.x)
         self.y = y
-        #print "position y: " + str(self.y)
 
     # to be able to use x and y in class
     def get_x(self):
@@ -19,8 +17,6 @@ class position(object):
         old_x, old_y = self.get_x(), self.get_y()
         new_x = old_x + 1
         new_y = old_y + 0
-        #print "position new x: " + str(new_x)
-        #print "position new y: " + str(new_y)
         return position(new_x, new_y)
 
 class Vehicle(object):
@@ -63,14 +59,13 @@ class Vehicle(object):
 
                 # Naar Rechts beweeg functie
                 if v.x + v.length >= 0 and board[v.y][v.x + v.length] == '_':
-                    # Dit is gedaan door een nieuwe vehicle aan te maken met een andere x coordinaat
+                    # Dit is gedaan door een nieuwe vehicle aan te maken met een andere x-coordinaat
                     new_v = Vehicle(v.id, v.x +1, v.y, v.orientation)
                     # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
                     new_vehicles == self.vehicles.copy()
                     new_vehicles.remove(v)
                     new_vehicles.add(new_v)
                     yield Vehicle(new_vehicles)
-
 
                 #indien verticaal alleen omhoog en omlaag bewegen mogelijk.
                 if v.orientation == 'V':
@@ -94,7 +89,6 @@ class Vehicle(object):
                         new_vehicles.add(new_v)
                         yield Vehicle(new_vehicles)
 
-
 class Board(object):
     def __init__(self, width, height):
         self.width = width
@@ -104,7 +98,6 @@ class Board(object):
         block = ''
         for line in self.get_board():
             block = block + '{0}\n'.format(''.join(line))
-        #print block
         return block
 
     # we don't need this, just for visualisation
@@ -114,25 +107,22 @@ class Board(object):
 
         # Voor de nieuwe coordinaten gaat dit dan als volgt worden.
         for vehicle in vehicles:
-             orientation = vehicle.orientation
-             if vehicle.id >= 'A' and vehicle.id <= 'Z' or vehicle.id == '!' or vehicle.id == 'x':
+            orientation = vehicle.orientation
+            if vehicle.id >= 'A' and vehicle.id <= 'Z' or vehicle.id == '!' or vehicle.id == 'x':
                 vehicle.length = 2
-             elif vehicle.id >= 'a' and vehicle.id <= 'w':
+            elif vehicle.id >= 'a' and vehicle.id <= 'w':
                 vehicle.length = 3
 
-             y = vehicle.y
-             #print y
-             x = vehicle.x
-             #print x
-             id = vehicle.id
+            y = vehicle.y
+            x = vehicle.x
+            id = vehicle.id
 
-
-             if orientation == 'H':
-                 for i in range(vehicle.length):
-                     board[y][x+i] = id
-             else:
-                 for i in range(vehicle.length):
-                     board[y+i][x] = id
+            if orientation == 'H':
+                for i in range(vehicle.length):
+                    board[y][x+i] = id
+            else:
+                for i in range(vehicle.length):
+                    board[y+i][x] = id
         return board
 
 # Voorbeeld van hoe een queue opgezet kan worden in python. Deze link geeft chille voorbeelden van hoe je de functies kan oproepen
@@ -155,7 +145,6 @@ class queue(object):
 
     def size(self):
         return len(self.items)
-
 
 # def breadthFirst(vehicles):
 #         # Eerst de benodigde dicts aanmaken en de queue
@@ -248,7 +237,7 @@ if __name__ == '__main__':
             # store all the vehicle variables in the vehicles array that we just made
             vehicles.append(vehicle)
 
-        # make a board of width = 6 and height = 6
+        # make a board of width = x and height = x
         board = Board(9, 9)
         print board
         # breadthFirst(vehicles)
