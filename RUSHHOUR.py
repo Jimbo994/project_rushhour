@@ -1,24 +1,27 @@
 import sys
-#vehicles = []
-new_vehicles = []
 
-# keeps track of the position of a vehicle
+# class to keep track of the position of a vehicle
 class position(object):
     def __init__(self, x, y):
         self.x = x
         self.y = y
 
-    # to be able to use x and y in class
     def get_x(self):
         return self.x
+    
     def get_y(self):
         return self.y
+    
     def get_new_position(self):
         old_x, old_y = self.get_x(), self.get_y()
         new_x = old_x + 1
         new_y = old_y + 0
         return position(new_x, new_y)
 
+# array for vehiclestrings, nodig in class Vehicle
+new_vehicles = []
+
+# class for vehicles (/ moves?)
 class Vehicle(object):
     def __init__(self, id, x, y, orientation):
         self.id = id
@@ -30,18 +33,17 @@ class Vehicle(object):
         board = self.get_board()
 
         for v in self.vehicles:
-            # indien horizontaal, kan de auto alleen naar links of rechts bewegen.
+            # check voor horizontale orientatie
             if v.orientation == 'H':
-                # Naar links beweeg functie
-                # check of er een auto is die op x-1 staat of of het buiten de doos is.
-                if v.x -1 >= 0 and board[v.y][v.x - 1] == '_':
-                    # naar rechts gaan
-                    # Dit is gedaan door een nieuwe vehicle aan te maken met een andere x coordinaat
+                # check of auto naar links kan
+                if v.x - 1 >= 0 and board[v.y][v.x - 1] == '_':
+                    # move de vehicle, door nieuwe vehicle te maken met nieuwe x, die in array te zetten en oude weg te halen
                     new_v = Vehicle(v.id, v.x -1, v.y, v.orientation)
-                    # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
                     new_vehicles = self.vehicles.copy()
                     new_vehicles.remove(v)
                     new_vehicles.add(new_v)
+                    yield Vehicle(new_vehicles)
+                    
                     # we hebben nu dus eigenlijk een kind gemaakt van de oude configuratie, deze kunnen we nu toevoegen aan de queue.
                     # dus wellicht hier dan deze functie oproepen
                     # enqueue.vehicles
@@ -51,43 +53,38 @@ class Vehicle(object):
                     #<__main__.Vehicle object at 0x000000000B3AA278>,
                     #<__main__.Vehicle object at 0x000000000B1C8C50>,
                     #<__main__.Vehicle object at 0x000000000B1C8EF0>]
-                    # Jij een idee Lisa?
 
                     # is dit een geldige move dan moeten we hem returnen aan breadthfirst en opslaan als kind
                     # alleen wat returnen? Ik denk de nieuwe array new_vehicles
-                    yield Vehicle(new_vehicles)
 
-                # Naar Rechts beweeg functie
+                # check of auto naar rechts kan
                 if v.x + v.length >= 0 and board[v.y][v.x + v.length] == '_':
-                    # Dit is gedaan door een nieuwe vehicle aan te maken met een andere x-coordinaat
+                    # move de vehicle, door nieuwe vehicle te maken met nieuwe x, die in array te zetten en oude weg te halen
                     new_v = Vehicle(v.id, v.x +1, v.y, v.orientation)
-                    # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
                     new_vehicles == self.vehicles.copy()
                     new_vehicles.remove(v)
                     new_vehicles.add(new_v)
                     yield Vehicle(new_vehicles)
 
-                #indien verticaal alleen omhoog en omlaag bewegen mogelijk.
-                if v.orientation == 'V':
-                    # omhoog beweeg functie
-                    if v.y + v.length >= 0 and board[v.y + v.length][v.x] == '_':
-                        # Dit is gedaan door een nieuwe vehicle aan te maken met een andere y coordinaat
-                        new_v = Vehicle(v.id, v.x, v.y + 1, v.orientation)
-                        # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
-                        new_vehicles == self.vehicles.copy()
-                        new_vehicles.remove(v)
-                        new_vehicles.add(new_v)
-                        yield Vehicle(new_vehicles)
+            #indien verticaal alleen omhoog en omlaag bewegen mogelijk.
+            if v.orientation == 'V':
+                # check if auto omhoog kan
+                if v.y + v.length >= 0 and board[v.y + v.length][v.x] == '_':
+                    # move de vehicle, door nieuwe vehicle te maken met nieuwe y, die in array te zetten en oude weg te halen
+                    new_v = Vehicle(v.id, v.x, v.y + 1, v.orientation)
+                    new_vehicles == self.vehicles.copy()
+                    new_vehicles.remove(v)
+                    new_vehicles.add(new_v)
+                    yield Vehicle(new_vehicles)
 
-                    # omlaag beweeg functie
-                    if v.y - 1 >= 0 and board[v.y-1][v.x] == '_':
-                    # Dit is gedaan door een nieuwe vehicle aan te maken met een andere y coordinaat
-                        new_v = Vehicle(v.id, v.x, v.y - 1, v.orientation)
-                        # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
-                        new_vehicles == self.vehicles.copy()
-                        new_vehicles.remove(v)
-                        new_vehicles.add(new_v)
-                        yield Vehicle(new_vehicles)
+                # check if auto omlaag kan
+                if v.y - 1 >= 0 and board[v.y-1][v.x] == '_':
+                    # move de vehicle, door nieuwe vehicle te maken met nieuwe y, die in array te zetten en oude weg te halen
+                    new_v = Vehicle(v.id, v.x, v.y - 1, v.orientation)
+                    new_vehicles == self.vehicles.copy()
+                    new_vehicles.remove(v)
+                    new_vehicles.add(new_v)
+                    yield Vehicle(new_vehicles)
 
 class Board(object):
     def __init__(self, width, height):
