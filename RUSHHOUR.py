@@ -23,7 +23,7 @@ class position(object):
         #print "position new y: " + str(new_y)
         return position(new_x, new_y)
 
-class vehicle(object):
+class Vehicle(object):
     def __init__(self, id, x, y, orientation):
         self.id = id
         self.x = x
@@ -52,7 +52,7 @@ class vehicle(object):
                 if v.x -1 >= 0 and board[v.y][v.x - 1] == '_':
                     # naar rechts gaan
                     # Dit is gedaan door een nieuwe vehicle aan te maken met een andere x coordinaat
-                    new_v = vehicle(v.id, v.x -1, v.y, v.orientation)
+                    new_v = Vehicle(v.id, v.x -1, v.y, v.orientation)
                     # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
                     new_vehicles = self.vehicles.copy()
                     new_vehicles.remove(v)
@@ -62,25 +62,25 @@ class vehicle(object):
                     # enqueue.vehicles
                     # Alleen misschien moeten we het eerst nog terug converteren naar een string. misschien omkeren van de code in INIT
                     # Ik heb namelijk een print gemaakt van de vehicle[] array en deze ziet er dan zo uit:
-                    # [<__main__.vehicle object at 0x000000000AE51EB8>,
-                    #<__main__.vehicle object at 0x000000000B3AA278>,
-                    #<__main__.vehicle object at 0x000000000B1C8C50>,
-                    #<__main__.vehicle object at 0x000000000B1C8EF0>]
+                    # [<__main__.Vehicle object at 0x000000000AE51EB8>,
+                    #<__main__.Vehicle object at 0x000000000B3AA278>,
+                    #<__main__.Vehicle object at 0x000000000B1C8C50>,
+                    #<__main__.Vehicle object at 0x000000000B1C8EF0>]
                     # Jij een idee Lisa?
 
                     # is dit een geldige move dan moeten we hem returnen aan breadthfirst en opslaan als kind
                     # alleen wat returnen? Ik denk de nieuwe array new_vehicles
-                    yield vehicle(new_vehicles)
+                    yield Vehicle(new_vehicles)
 
                 # Naar Rechts beweeg functie
                 if v.x + v.length >= 0 and board[v.y][v.x + v.length] == '_':
                     # Dit is gedaan door een nieuwe vehicle aan te maken met een andere x coordinaat
-                    new_v = vehicle(v.id, v.x +1, v.y, v.orientation)
+                    new_v = Vehicle(v.id, v.x +1, v.y, v.orientation)
                     # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
                     new_vehicles == self.vehicles.copy()
                     new_vehicles.remove(v)
                     new_vehicles.add(new_v)
-                    yield vehicle(new_vehicles)
+                    yield Vehicle(new_vehicles)
 
 
                 #indien verticaal alleen omhoog en omlaag bewegen mogelijk.
@@ -88,22 +88,22 @@ class vehicle(object):
                     # omhoog beweeg functie
                     if v.y + v.length >= 0 and board[v.y + v.length][v.x] == '_':
                         # Dit is gedaan door een nieuwe vehicle aan te maken met een andere y coordinaat
-                        new_v = vehicle(v.id, v.x, v.y + 1, v.orientation)
+                        new_v = Vehicle(v.id, v.x, v.y + 1, v.orientation)
                         # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
                         new_vehicles == self.vehicles.copy()
                         new_vehicles.remove(v)
                         new_vehicles.add(new_v)
-                        yield vehicle(new_vehicles)
+                        yield Vehicle(new_vehicles)
 
                     # omlaag beweeg functie
                     if v.y - 1 >= 0 and board[v.y-1][v.x] == '_':
                     # Dit is gedaan door een nieuwe vehicle aan te maken met een andere y coordinaat
-                        new_v = vehicle(v.id, v.x, v.y - 1, v.orientation)
+                        new_v = Vehicle(v.id, v.x, v.y - 1, v.orientation)
                         # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
                         new_vehicles == self.vehicles.copy()
                         new_vehicles.remove(v)
                         new_vehicles.add(new_v)
-                        yield vehicle(new_vehicles)
+                        yield Vehicle(new_vehicles)
 
 
 class Board(object):
@@ -158,7 +158,7 @@ class Board(object):
 # Voorbeeld van hoe een queue opgezet kan worden in python. Deze link geeft chille voorbeelden van hoe je de functies kan oproepen
 # http://ice-web.cc.gatech.edu/ce21/1/static/audio/static/pythonds/BasicDS/ImplementingaqueueinPython.html
 # Bij een gevonden configuratie kan bijvoorbeeld gecalld worden configuratie.enqueue en dan zit hij in de queue op de 0 plek.
-# bij dequeue wordt dan het laatste item uit de array gepopt, die is tenslotte als eerste toegevoegd. (first in first out)
+# bij dequeue wordt dan het laatste item uit de array gepopt, die is tenslotte als eerste toegevoegd. (First in First out)
 
 class queue(object):
     def __init__(self):
@@ -177,7 +177,7 @@ class queue(object):
         return len(self.items)
 
 
-# def breadthfirst(vehicles):
+# def breadthFirst(vehicles):
 #         # Eerst de benodigde dicts aanmaken en de queue
 #         # Hier wat info over dicts in python https://developmentality.wordpress.com/2012/03/30/three-ways-of-creating-dictionaries-in-python/
 #         # In ieder geval een dict waar we de gepopte configuraties in opslaan. Maar misschien nog andere, want we willen ook uiteindelijk de route weten.
@@ -217,7 +217,7 @@ class queue(object):
 #
 #             # wat misschien ook kan is
 #
-#             if vehicle('X', 4, 2, 'H') in new_vehicle:
+#             if Vehicle('X', 4, 2, 'H') in new_vehicle:
 #                 print "we won"
 #                 break
 #
@@ -236,7 +236,7 @@ class queue(object):
 #             # zo nee, volgende move halen en daarmee weer dit proces doorlopen.
 #             # weet eigenlijk niet of dit zo kan
 #             else:
-#                 for new_vehicles in vehicle.get_moves(vehicles):
+#                 for new_vehicles in Vehicle.get_moves(vehicles):
 #                     Q.enqueue(new_vehicles)
 #             # en dan hier alles
 #
@@ -269,8 +269,8 @@ if __name__ == '__main__':
             #print "ID: " + id
             #print y
             #print x
-            # send the values to class vehicle and store this is vehicles
-            vehicle = vehicle(id, x, y, orientation)
+            # send the values to class Vehicle and store this is vehicles
+            vehicle = Vehicle(id, x, y, orientation)
 
             # store all the vehicle variables in the vehicles array that we just made
             vehicles.append(vehicle)
@@ -278,5 +278,5 @@ if __name__ == '__main__':
         # make a board of width = 6 and height = 6
         board = Board(9, 9)
         print board
-        # breadthfirst(vehicles)
+        # breadthFirst(vehicles)
             # pos = position(x, y)
