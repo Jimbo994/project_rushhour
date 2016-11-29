@@ -128,7 +128,7 @@ class Board(object):
 # Bij een gevonden configuratie kan bijvoorbeeld gecalld worden configuratie.enqueue en dan zit hij in de queue op de 0 plek.
 # bij dequeue wordt dan het laatste item uit de array gepopt, die is tenslotte als eerste toegevoegd. (First in First out)
 
-class queue(object):
+class ueue(object):
     def __init__(self):
         self.items = []
 
@@ -145,6 +145,12 @@ class queue(object):
         return len(self.items)
 
 # def breadthFirst(vehicles):
+
+
+# Dit misschien om oplossing op te slaan:
+# http://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
+
+
 #         # Eerst de benodigde dicts aanmaken en de queue
 #         # Hier wat info over dicts in python https://developmentality.wordpress.com/2012/03/30/three-ways-of-creating-dictionaries-in-python/
 #         # In ieder geval een dict waar we de gepopte configuraties in opslaan. Maar misschien nog andere, want we willen ook uiteindelijk de route weten.
