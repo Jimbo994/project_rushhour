@@ -73,10 +73,10 @@ class Vehicle(object):
 #             print "ERROR: new vehicle position is not on board."
 #==============================================================================
     
-    def get_moves(self):
+    def get_moves(self, vehicles):
         board = self.get_board()
         
-        for v in self.vehicles:
+        for v in vehicles:
             # indien horizontaal, kan de auto alleen naar links of rechts bewegen.
             if v.orientation == 'H':
                 # Naar links beweeg functie
@@ -86,7 +86,7 @@ class Vehicle(object):
                     # Dit is gedaan door een nieuwe vehicle aan te maken met een andere x coordinaat
                     new_v = Vehicle(v.id, v.x -1, v.y, v.orientation)
                     # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
-                    new_vehicles = self.vehicles.copy()
+                    new_vehicles = vehicles.copy()
                     new_vehicles.remove(v)
                     new_vehicles.add(new_v)
                     # we hebben nu dus eigenlijk een kind gemaakt van de oude configuratie, deze kunnen we nu toevoegen aan de queue.
@@ -109,7 +109,7 @@ class Vehicle(object):
                     # Dit is gedaan door een nieuwe vehicle aan te maken met een andere x coordinaat
                     new_v = Vehicle(v.id, v.x +1, v.y, v.orientation)
                     # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
-                    new_vehicles == self.vehicles.copy()
+                    new_vehicles == vehicles.copy()
                     new_vehicles.remove(v)
                     new_vehicles.add(new_v)
                     yield Vehicle(new_vehicles)
@@ -122,7 +122,7 @@ class Vehicle(object):
                         # Dit is gedaan door een nieuwe vehicle aan te maken met een andere y coordinaat
                         new_v = Vehicle(v.id, v.x, v.y + 1, v.orientation)
                         # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
-                        new_vehicles == self.vehicles.copy()
+                        new_vehicles == vehicles.copy()
                         new_vehicles.remove(v)
                         new_vehicles.add(new_v)
                         yield Vehicle(new_vehicles)
@@ -132,17 +132,18 @@ class Vehicle(object):
                     # Dit is gedaan door een nieuwe vehicle aan te maken met een andere y coordinaat
                         new_v = Vehicle(v.id, v.x, v.y - 1, v.orientation)
                         # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
-                        new_vehicles == self.vehicles.copy()
+                        new_vehicles == vehicles.copy()
                         new_vehicles.remove(v)
                         new_vehicles.add(new_v)
                         yield Vehicle(new_vehicles)
 
 
 class Board(object):
-    def __init__(self, width, height):
+    def __init__(self, width, height, vehicles):
         self.width = width
         self.height = height
-
+        self.vehicles = vehicles
+        
     def __str__(self):
         block = ''
         for line in self.get_board():
@@ -251,7 +252,7 @@ def BreadthFirst(vehicles):
                 continue
             # als we hem nog niet in de old_boards hadden dan moet ie er bij.
             else:
-                old_boards[hash(str(new_vehicle))] =  new_vehicle
+                old_boards[str(new_vehicle)] =  new_vehicle
                 
             # Nu checken of het bord al een oplossing is
             # we moeten dus gaan kijken of auto met ID X dan op de juiste positie staat. 
@@ -285,7 +286,7 @@ def BreadthFirst(vehicles):
             # zo nee, volgende move halen en daarmee weer dit proces doorlopen.
             # weet eigenlijk niet of dit zo kan
             else:
-                for new_vehicles in Vehicle.get_moves(vehicles):
+                for new_vehicles in vehicles.get_moves(vehicles):
                     Q.enqueue(new_vehicles)
             # en dan hier alles
             
