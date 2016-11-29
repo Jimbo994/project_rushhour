@@ -253,16 +253,9 @@ if __name__ == '__main__':
             id, x, y, orientation = line
             # y and x values are letters, convert these to their ascii values (ord) and convert to string (str)
             y = int(ord(y) - 65)
-            #print y
-            #print type(y)
             x = int(ord(x) - 65)
-            # test test, we can leave this out later
-            #print "ID: " + id
-            #print y
-            #print x
             # send the values to class Vehicle and store this is vehicles
             vehicle = Vehicle(id, x, y, orientation)
-
             # store all the vehicle variables in the vehicles array that we just made
             vehicles.append(vehicle)
 
