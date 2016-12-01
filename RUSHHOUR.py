@@ -218,7 +218,7 @@ if __name__ == '__main__':
             vehicles.append(vehicle)
 
         # make a board of width = x and height = x
-        board = Board(6, 6)
+        board = Board(6, 6, vehicles)
         print board
         # breadthFirst(vehicles)
             # pos = position(x, y)
