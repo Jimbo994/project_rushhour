@@ -29,72 +29,18 @@ class Vehicle(object):
         self.y = y
         self.orientation = orientation
 
-<<<<<<< HEAD
-        
-        if self.id >= 'A' and self.id <= 'G':
-            self.length = 2
-        elif self.id >= 'O' and self.id <= 'Z':
-            self.length = 3
-
-        # self.position = position
-
-        # self.board = board
-        #self.pos = self.get_position(x, y)
-
-#==============================================================================
-#     def get_position(self, x, y):
-#         # x = raw_input("Give me a X coordinate: ")
-#         # y = raw_input("Give me an Y coordinate: ")
-#         #print x
-#         #print y
-#         return Position(int(x), int(y))
-#==============================================================================
-
-#==============================================================================
-#     # this method isn't used yet
-#     def get_vehicle_position(self):
-#         print "Position: " + self.pos
-#         return self.pos
-# 
-#     def set_vehicle_position(self, position):
-#         self.pos = position
-#==============================================================================
-
-#==============================================================================
-#     def update_position(self):
-#         new_position = self.pos.get_new_position()
-#         if self.board.is_position_on_board(new_position) == True:
-#             # self.set_vehicle_position(new_position)
-#             self.pos = new_position
-#             print "New vehicle position is on board."
-#         else:
-#             print "ERROR: new vehicle position is not on board."
-#==============================================================================
-    
     def get_moves(self, vehicles):
-        board = self.get_board()
-        
-        for v in vehicles:
-            # indien horizontaal, kan de auto alleen naar links of rechts bewegen.
-=======
-    def get_moves(self):
         board = self.get_board()
 
         for v in self.vehicles:
             # check voor horizontale orientatie
->>>>>>> origin/master
             if v.orientation == 'H':
-                
                 # check of auto naar links kan
                 if v.x - 1 >= 0 and board[v.y][v.x - 1] == '_':
                     # move de vehicle, door nieuwe vehicle te maken met nieuwe x, die in array te zetten en oude weg te halen
                     new_v = Vehicle(v.id, v.x -1, v.y, v.orientation)
-<<<<<<< HEAD
-                    # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
                     new_vehicles = vehicles.copy()
-=======
                     new_vehicles = self.vehicles.copy()
->>>>>>> origin/master
                     new_vehicles.remove(v)
                     new_vehicles.add(new_v)
                     yield Vehicle(new_vehicles)
@@ -116,43 +62,12 @@ class Vehicle(object):
                 if v.x + v.length >= 0 and board[v.y][v.x + v.length] == '_':
                     # move de vehicle, door nieuwe vehicle te maken met nieuwe x, die in array te zetten en oude weg te halen
                     new_v = Vehicle(v.id, v.x +1, v.y, v.orientation)
-<<<<<<< HEAD
-                    # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
                     new_vehicles == vehicles.copy()
                     new_vehicles.remove(v)
                     new_vehicles.add(new_v)
                     yield Vehicle(new_vehicles)
                 
-                    
-                #indien verticaal alleen omhoog en omlaag bewegen mogelijk.
-                if v.orientation == 'V':
-                    # omhoog beweeg functie
-                    if v.y + v.length >= 0 and board[v.y + v.length][v.x] == '_':
-                        # Dit is gedaan door een nieuwe vehicle aan te maken met een andere y coordinaat
-                        new_v = Vehicle(v.id, v.x, v.y + 1, v.orientation)
-                        # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
-                        new_vehicles == vehicles.copy()
-                        new_vehicles.remove(v)
-                        new_vehicles.add(new_v)
-                        yield Vehicle(new_vehicles)
-                    
-                    # omlaag beweeg functie
-                    if v.y - 1 >= 0 and board[v.y-1][v.x] == '_':
-                    # Dit is gedaan door een nieuwe vehicle aan te maken met een andere y coordinaat
-                        new_v = Vehicle(v.id, v.x, v.y - 1, v.orientation)
-                        # deze nieuwe vehicle vervolgens in nieuwe (gecloonde) array plaatsen en oude auto eruit halen.
-                        new_vehicles == vehicles.copy()
-                        new_vehicles.remove(v)
-                        new_vehicles.add(new_v)
-                        yield Vehicle(new_vehicles)
-=======
-                    new_vehicles == self.vehicles.copy()
-                    new_vehicles.remove(v)
-                    new_vehicles.add(new_v)
-                    yield Vehicle(new_vehicles)
->>>>>>> origin/master
-
-            # check voor verticale orientatie
+            #indien verticaal alleen omhoog en omlaag bewegen mogelijk.
             if v.orientation == 'V':
                 # check if auto omhoog kan
                 if v.y + v.length >= 0 and board[v.y + v.length][v.x] == '_':
@@ -214,7 +129,7 @@ class Board(object):
 # Bij een gevonden configuratie kan bijvoorbeeld gecalld worden configuratie.enqueue en dan zit hij in de queue op de 0 plek.
 # bij dequeue wordt dan het laatste item uit de array gepopt, die is tenslotte als eerste toegevoegd. (First in First out)
 
-class ueue(object):
+class queue(object):
     def __init__(self):
         self.items = []
 
@@ -225,12 +140,11 @@ class ueue(object):
         self.items.insert(0,item)
 
     def dequeue(self):
-        return self.items.pop()
+        return self.items.pop() # KIJK OF WE DIT KUNNEN DEQUE IPV POP? (werkcollege)
 
     def size(self):
         return len(self.items)
 
-<<<<<<< HEAD
 def BreadthFirst(vehicles):
         # Eerst de benodigde dicts aanmaken en de queue
         # Hier wat info over dicts in python https://developmentality.wordpress.com/2012/03/30/three-ways-of-creating-dictionaries-in-python/
@@ -280,9 +194,6 @@ def BreadthFirst(vehicles):
                 #vehicle.y = winnend y
                 #vehicle.x = winnend x
                 # dan weten we ook dat we gewonnen hebben.
-                
-            
-                
                 # dan hebben we gewonnen
             
             # zo ja zijn we klaar
@@ -302,85 +213,6 @@ def BreadthFirst(vehicles):
         # moves hier maken 
         # opslaan welke moves er zijn gemaakt met welke auto
             # tuple aanmaken
-=======
-# def breadthFirst(vehicles):
-
-
-# Dit misschien om oplossing op te slaan:
-# http://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
-
-
-#         # Eerst de benodigde dicts aanmaken en de queue
-#         # Hier wat info over dicts in python https://developmentality.wordpress.com/2012/03/30/three-ways-of-creating-dictionaries-in-python/
-#         # In ieder geval een dict waar we de gepopte configuraties in opslaan. Maar misschien nog andere, want we willen ook uiteindelijk de route weten.
-#         old_boards = {}
-#         # De queue begint met de start configuratie, dan moeten hier alle kinderen van gemaakt worden (met get_board) en dan gepopt worden
-#         Q = queue()
-#         #het standaard board toevoegen aan de queue
-#         Q.enqueue(vehicles)
-#
-#         # we moeten doorgaan met het algoritme totdat we een oplossing hebben, of tot de queue leeg is.
-#         # in iedergeval deze loop dus
-#
-#         while Q.size != 0:
-#             # dan halen we het board uit de queue
-#             # maar ik weet dus niet zeker of het slim is om te zeggen dequeue(board) Misschien slimmer om gewoon het item dat het eerste erin is gestopt te poppen.
-#             # want later in de code enqueun we de moves uit vehicle.get_moves en dan heten ze dus ook move... toch?
-#
-#             new_vehicle = Q.dequeue()
-#
-#             # als het bord al in de old_boards staat dan doen we er niks mee en gaan we door
-#             if str(new_vehicle) in old_boards:
-#                 continue
-#             # als we hem nog niet in de old_boards hadden dan moet ie er bij.
-#             else:
-#                 old_boards[hash(str(new_vehicle))] =  new_vehicle
-#
-#             # Nu checken of het bord al een oplossing is
-#             # we moeten dus gaan kijken of auto met ID X dan op de juiste positie staat.
-#             # alleen die array vehicles[] kunnen we dan niet gebruiken als geldige code.
-#             # ik zat te denken aan zoiets, maar weet dus niet of als we dat board noemen of dat werkt.
-#             # even uitzoeken wat de winnend coordinaten ook alweer precies zijn (ik ben lui, het is laat)
-#             #new_vehicleboard = Board.get_board(new_vehicle)
-#             #if new_vehicleboard[2][4] == 'X' and new_vehicleboard[2][5] == 'X':
-#                 #print "we won"
-#                 #print new_vehicleboard.__str__
-#
-#
-#             # wat misschien ook kan is
-#
-#             if Vehicle('X', 4, 2, 'H') in new_vehicle:
-#                 print "we won"
-#                 break
-#
-#             # deze waardes gelden:
-#                 #vehicle.id = X
-#                 #vehicle.y = winnend y
-#                 #vehicle.x = winnend x
-#                 # dan weten we ook dat we gewonnen hebben.
-#
-#
-#
-#                 # dan hebben we gewonnen
-#
-#             # zo ja zijn we klaar
-#
-#             # zo nee, volgende move halen en daarmee weer dit proces doorlopen.
-#             # weet eigenlijk niet of dit zo kan
-#             else:
-#                 for new_vehicles in Vehicle.get_moves(vehicles):
-#                     Q.enqueue(new_vehicles)
-#             # en dan hier alles
-#
-#             #queue.extendleft((move, new_path) for move in board.moves())
-#
-#         # get_moves callen per auto
-#         # check for board state
-#         # alle mogelijke moves van een auto
-#         # moves hier maken
-#         # opslaan welke moves er zijn gemaakt met welke auto
-#             # tuple aanmaken
->>>>>>> origin/master
 
 if __name__ == '__main__':
     # filename is second argument given in command line
@@ -402,7 +234,7 @@ if __name__ == '__main__':
             vehicles.append(vehicle)
 
         # make a board of width = x and height = x
-        board = Board(9, 9)
+        board = Board(6, 6)
         print board
         # breadthFirst(vehicles)
             # pos = position(x, y)
