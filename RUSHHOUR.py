@@ -44,19 +44,6 @@ class Vehicle(object):
                     new_vehicles.remove(v)
                     new_vehicles.add(new_v)
                     yield Vehicle(new_vehicles)
-                    
-                    # we hebben nu dus eigenlijk een kind gemaakt van de oude configuratie, deze kunnen we nu toevoegen aan de queue.
-                    # dus wellicht hier dan deze functie oproepen
-                    # enqueue.vehicles
-                    # Alleen misschien moeten we het eerst nog terug converteren naar een string. misschien omkeren van de code in INIT
-                    # Ik heb namelijk een print gemaakt van de vehicle[] array en deze ziet er dan zo uit:
-                    # [<__main__.Vehicle object at 0x000000000AE51EB8>,
-                    #<__main__.Vehicle object at 0x000000000B3AA278>,
-                    #<__main__.Vehicle object at 0x000000000B1C8C50>,
-                    #<__main__.Vehicle object at 0x000000000B1C8EF0>]
-
-                    # is dit een geldige move dan moeten we hem returnen aan breadthfirst en opslaan als kind
-                    # alleen wat returnen? Ik denk de nieuwe array new_vehicles
 
                 # check of auto naar rechts kan
                 if v.x + v.length >= 0 and board[v.y][v.x + v.length] == '_':
@@ -69,7 +56,7 @@ class Vehicle(object):
                 
             #indien verticaal alleen omhoog en omlaag bewegen mogelijk.
             if v.orientation == 'V':
-                # check if auto omhoog kan
+                # check of auto omhoog kan
                 if v.y + v.length >= 0 and board[v.y + v.length][v.x] == '_':
                     # move de vehicle, door nieuwe vehicle te maken met nieuwe y, die in array te zetten en oude weg te halen
                     new_v = Vehicle(v.id, v.x, v.y + 1, v.orientation)
@@ -78,7 +65,7 @@ class Vehicle(object):
                     new_vehicles.add(new_v)
                     yield Vehicle(new_vehicles)
 
-                # check if auto omlaag kan
+                # check of auto omlaag kan
                 if v.y - 1 >= 0 and board[v.y-1][v.x] == '_':
                     # move de vehicle, door nieuwe vehicle te maken met nieuwe y, die in array te zetten en oude weg te halen
                     new_v = Vehicle(v.id, v.x, v.y - 1, v.orientation)
@@ -92,15 +79,14 @@ class Board(object):
         self.width = width
         self.height = height
         self.vehicles = vehicles
-        
+    
+    #visualisation
     def __str__(self):
         block = ''
         for line in self.get_board():
             block = block + '{0}\n'.format(''.join(line))
         return block
 
-    # we don't need this, just for visualisation
-    # J. Ik denk dat we deze wel nodig hebben voor de get_moves om te checken of er een auto staat op de positie
     def get_board(self):
         board = [['_' for w in range(self.width)] for h in range(self.height)]
 
@@ -180,9 +166,7 @@ def BreadthFirst(vehicles):
             #new_vehicleboard = Board.get_board(new_vehicle)
             #if new_vehicleboard[2][4] == 'X' and new_vehicleboard[2][5] == 'X':
                 #print "we won"
-                #print new_vehicleboard.__str__
-                
-            
+                #print new_vehicleboard.__str__            
             # wat misschien ook kan is
             
             if Vehicle('X', 4, 2, 'H') in new_vehicle:
