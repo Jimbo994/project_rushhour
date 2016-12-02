@@ -1,23 +1,5 @@
 import sys
 
-# class to keep track of the position of a vehicle
-class position(object):
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-    def get_x(self):
-        return self.x
-    
-    def get_y(self):
-        return self.y
-    
-    def get_new_position(self):
-        old_x, old_y = self.get_x(), self.get_y()
-        new_x = old_x + 1
-        new_y = old_y + 0
-        return position(new_x, new_y)
-
 # array for vehiclestrings, nodig in class Vehicle
 new_vehicles = []
 
