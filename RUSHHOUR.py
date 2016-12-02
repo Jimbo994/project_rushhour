@@ -114,24 +114,18 @@ class queue(object):
         return len(self.items)
 
 def BreadthFirst(vehicles):
-        # Eerst de benodigde dicts aanmaken en de queue
-        # Hier wat info over dicts in python https://developmentality.wordpress.com/2012/03/30/three-ways-of-creating-dictionaries-in-python/
-        # In ieder geval een dict waar we de gepopte configuraties in opslaan. Maar misschien nog andere, want we willen ook uiteindelijk de route weten.
-        old_boards = {}
-        # De queue begint met de start configuratie, dan moeten hier alle kinderen van gemaakt worden (met get_board) en dan gepopt worden
-        Q = Queue()
-        #het standaard board toevoegen aan de Queue
-        Q.enqueue(vehicles)
-        
-        # we moeten doorgaan met het algoritme totdat we een oplossing hebben, of tot de Queue leeg is.
-        # in iedergeval deze loop dus
-        
-        while Q.size != 0:
-            # dan halen we het board uit de Queue 
-            # maar ik weet dus niet zeker of het slim is om te zeggen dequeue(board) Misschien slimmer om gewoon het item dat het eerste erin is gestopt te poppen.
-            # want later in de code enqueun we de moves uit vehicle.get_moves en dan heten ze dus ook move... toch?
+    old_boards = {}
+    # queue begint met de startconfiguratie, dan moeten hier alle kinderen van gemaakt worden (met get_board) en dan gepopt worden
+    Q = Queue()
+    # startconfiguratie board toevoegen aan de Queue
+    Q.enqueue(vehicles)
+    # zolang queue niet leeg is:
+    while Q.size != 0:
+        # dan halen we het board uit de Queue 
+        # maar ik weet dus niet zeker of het slim is om te zeggen dequeue(board) Misschien slimmer om gewoon het item dat het eerste erin is gestopt te poppen.
+        # want later in de code enqueun we de moves uit vehicle.get_moves en dan heten ze dus ook move... toch?
             
-            new_vehicle = Q.dequeue()
+        new_vehicle = Q.dequeue()
             
             # als het bord al in de old_boards staat dan doen we er niks mee en gaan we door
             if str(new_vehicle) in old_boards:
@@ -152,25 +146,14 @@ def BreadthFirst(vehicles):
             # wat misschien ook kan is
             
             if Vehicle('X', 4, 2, 'H') in new_vehicle:
-                print "we won"
+                print "We won! :)"
                 break
             
-            # deze waardes gelden:
-                #vehicle.id = X
-                #vehicle.y = winnend y
-                #vehicle.x = winnend x
-                # dan weten we ook dat we gewonnen hebben.
-                # dan hebben we gewonnen
-            
-            # zo ja zijn we klaar
-            
             # zo nee, volgende move halen en daarmee weer dit proces doorlopen.
-            # weet eigenlijk niet of dit zo kan
             else:
                 for new_vehicles in vehicles.get_moves(vehicles):
                     Q.enqueue(new_vehicles)
-            # en dan hier alles
-            
+            # en dan hier alles            
             #queue.extendleft((move, new_path) for move in board.moves())
         
         # get_moves callen per auto
@@ -203,4 +186,3 @@ if __name__ == '__main__':
         board = Board(6, 6, vehicles)
         print board
         # breadthFirst(vehicles)
-            # pos = position(x, y)
