@@ -1,3 +1,19 @@
+class queue(object):
+    def __init__(self):
+        self.items = []
+
+    def isEmpty(self):
+        return self.items == []
+
+    def enqueue(self, item):
+        self.items.insert(0,item)
+
+    def dequeue(self):
+        return self.items.pop() # KIJK OF WE DIT KUNNEN DEQUE IPV POP? (werkcollege)
+
+    def size(self):
+        return len(self.items)
+
 def BreadthFirst(vehicles):
     old_boards = {}
     # queue begint met de startconfiguratie, dan moeten hier alle kinderen van gemaakt worden (met get_board) en dan gepopt worden
