@@ -145,7 +145,7 @@ def BreadthFirst(vehicles):
                 #print new_vehicleboard.__str__            
             # wat misschien ook kan is
             
-            if Vehicle('X', 4, 2, 'H') in new_vehicle:
+            if Vehicle('x', 4, 2, 'H') in new_vehicle:
                 print "We won! :)"
                 break
             
