@@ -1,4 +1,5 @@
 import sys
+import copy
 
 # array for vehiclestrings, nodig in class Vehicle
 new_vehicles = []
@@ -11,65 +12,22 @@ class Vehicle(object):
         self.y = y
         self.orientation = orientation
 
-    def get_moves(self, vehicles):
-        board = self.get_board()
 
-        for v in self.vehicles:
-            # check voor horizontale orientatie
-            if v.orientation == 'H':
-                # check of auto naar links kan
-                if v.x - 1 >= 0 and board[v.y][v.x - 1] == '_':
-                    # move de vehicle, door nieuwe vehicle te maken met nieuwe x, die in array te zetten en oude weg te halen
-                    new_v = Vehicle(v.id, v.x -1, v.y, v.orientation)
-                    new_vehicles = vehicles.copy()
-                    new_vehicles = self.vehicles.copy()
-                    new_vehicles.remove(v)
-                    new_vehicles.add(new_v)
-                    yield Vehicle(new_vehicles)
-
-                # check of auto naar rechts kan
-                if v.x + v.length >= 0 and board[v.y][v.x + v.length] == '_':
-                    # move de vehicle, door nieuwe vehicle te maken met nieuwe x, die in array te zetten en oude weg te halen
-                    new_v = Vehicle(v.id, v.x +1, v.y, v.orientation)
-                    new_vehicles == vehicles.copy()
-                    new_vehicles.remove(v)
-                    new_vehicles.add(new_v)
-                    yield Vehicle(new_vehicles)
-                
-            #indien verticaal alleen omhoog en omlaag bewegen mogelijk.
-            if v.orientation == 'V':
-                # check of auto omhoog kan
-                if v.y + v.length >= 0 and board[v.y + v.length][v.x] == '_':
-                    # move de vehicle, door nieuwe vehicle te maken met nieuwe y, die in array te zetten en oude weg te halen
-                    new_v = Vehicle(v.id, v.x, v.y + 1, v.orientation)
-                    new_vehicles == self.vehicles.copy()
-                    new_vehicles.remove(v)
-                    new_vehicles.add(new_v)
-                    yield Vehicle(new_vehicles)
-
-                # check of auto omlaag kan
-                if v.y - 1 >= 0 and board[v.y-1][v.x] == '_':
-                    # move de vehicle, door nieuwe vehicle te maken met nieuwe y, die in array te zetten en oude weg te halen
-                    new_v = Vehicle(v.id, v.x, v.y - 1, v.orientation)
-                    new_vehicles == self.vehicles.copy()
-                    new_vehicles.remove(v)
-                    new_vehicles.add(new_v)
-                    yield Vehicle(new_vehicles)
 
 class Board(object):
     def __init__(self, width, height, vehicles):
         self.width = width
         self.height = height
         self.vehicles = vehicles
-    
+
     #visualisation
     def __str__(self):
         block = ''
-        for line in self.get_board():
+        for line in self.get_board(vehicles):
             block = block + '{0}\n'.format(''.join(line))
         return block
 
-    def get_board(self):
+    def get_board(self, vehicles):
         board = [['_' for w in range(self.width)] for h in range(self.height)]
 
         # Voor de nieuwe coordinaten gaat dit dan als volgt worden:
@@ -92,12 +50,58 @@ class Board(object):
                     board[y+i][x] = id
         return board
 
-# Voorbeeld van hoe een queue opgezet kan worden in python. Deze link geeft chille voorbeelden van hoe je de functies kan oproepen
-# http://ice-web.cc.gatech.edu/ce21/1/static/audio/static/pythonds/BasicDS/ImplementingaqueueinPython.html
-# Bij een gevonden configuratie kan bijvoorbeeld gecalld worden configuratie.enqueue en dan zit hij in de queue op de 0 plek.
-# bij dequeue wordt dan het laatste item uit de array gepopt, die is tenslotte als eerste toegevoegd. (First in First out)
+    def get_moves(self, vehicles):
+        board = self.get_board(vehicles)
 
-class queue(object):
+        for v in vehicles:
+            # check voor horizontale orientatie
+            if v.orientation == 'H':
+                # check of auto naar links kan
+                if v.x - 1 >= 0 and board[v.y][v.x - 1] == '_':
+                    # move de vehicle, door nieuwe vehicle te maken met nieuwe x, die in array te zetten en oude weg te halen
+                    new_vehicles = copy.copy(vehicles)
+                    for nv in new_vehicles:
+                        if nv.id == v.id:
+                            nv.x -= 1
+
+                    # print "test1"
+                    yield new_vehicles
+
+                # check of auto naar rechts kan
+                if v.x + v.length < self.width and board[v.y][v.x + v.length] == '_':
+                    # move de vehicle, door nieuwe vehicle te maken met nieuwe x, die in array te zetten en oude weg te halen
+                    new_vehicles = copy.copy(vehicles)
+                    for nv in new_vehicles:
+                        if nv.id == v.id:
+                            nv.x += 1
+                    # print "test2"
+                    yield new_vehicles
+
+            #indien verticaal alleen omhoog en omlaag bewegen mogelijk.
+            if v.orientation == 'V':
+                # check of auto omhoog kan
+                if v.y - 1 >= 0 and board[v.y - 1][v.x] == '_':
+                    # move de vehicle, door nieuwe vehicle te maken met nieuwe y, die in array te zetten en oude weg te halen
+                    new_vehicles = copy.copy(vehicles)
+                    for nv in new_vehicles:
+                        if nv.id == v.id:
+                            nv.y -= 1
+                    # print "test3"
+                    # print new_v
+                    yield new_vehicles
+
+                # check of auto omlaag kan
+                if v.y + v.length < self.height and board[v.y + v.length][v.x] == '_':
+                    # move de vehicle, door nieuwe vehicle te maken met nieuwe y, die in array te zetten en oude weg te halen
+                    new_vehicles = copy.copy(vehicles)
+                    for nv in new_vehicles:
+                        if nv.id == v.id:
+                            nv.y += 1
+                    # print "test4"
+                    # print v.y, 'to', new_v.y
+                    yield new_vehicles
+
+class Queue(object):
     def __init__(self):
         self.items = []
 
@@ -105,63 +109,52 @@ class queue(object):
         return self.items == []
 
     def enqueue(self, item):
-        self.items.insert(0,item)
+        self.items.insert(0, item)
 
     def dequeue(self):
-        return self.items.pop() # KIJK OF WE DIT KUNNEN DEQUE IPV POP? (werkcollege)
+        return self.items.pop()
 
     def size(self):
         return len(self.items)
 
 def BreadthFirst(vehicles):
-    old_boards = {}
-    # queue begint met de startconfiguratie, dan moeten hier alle kinderen van gemaakt worden (met get_board) en dan gepopt worden
-    Q = Queue()
-    # startconfiguratie board toevoegen aan de Queue
-    Q.enqueue(vehicles)
-    # zolang queue niet leeg is:
-    while Q.size != 0:
-        # dan halen we het board uit de Queue 
-        # maar ik weet dus niet zeker of het slim is om te zeggen dequeue(board) Misschien slimmer om gewoon het item dat het eerste erin is gestopt te poppen.
-        # want later in de code enqueun we de moves uit vehicle.get_moves en dan heten ze dus ook move... toch?
-            
-        new_vehicle = Q.dequeue()
-            
+        # Eerst de benodigde dicts aanmaken en de queue
+        old_boards = {}
+        # De queue begint met de start configuratie, dan moeten hier alle kinderen van gemaakt worden (met get_board) en dan gepopt worden
+        Q = Queue()
+        #het standaard board toevoegen aan de Queue
+        Q.enqueue(vehicles)
+        # print "test1"
+
+        # we moeten doorgaan met het algoritme totdat we een oplossing hebben, of tot de Queue leeg is.
+        # in iedergeval deze loop dus
+        while Q.size() != 0:
+            # dan halen we het board uit de Queue
+            new_vehicle = Q.dequeue()
+            new_array=[]
+            # print "test2"
             # als het bord al in de old_boards staat dan doen we er niks mee en gaan we door
-            if str(new_vehicle) in old_boards:
-                continue
+            if str(new_array) in old_boards:
+                # print "1"
+                    continue
             # als we hem nog niet in de old_boards hadden dan moet ie er bij.
             else:
-                old_boards[str(new_vehicle)] =  new_vehicle
-                
-            # Nu checken of het bord al een oplossing is
-            # we moeten dus gaan kijken of auto met ID X dan op de juiste positie staat. 
-            # alleen die array vehicles[] kunnen we dan niet gebruiken als geldige code.
-            # ik zat te denken aan zoiets, maar weet dus niet of als we dat board noemen of dat werkt.
-            # even uitzoeken wat de winnend coordinaten ook alweer precies zijn (ik ben lui, het is laat)
-            #new_vehicleboard = Board.get_board(new_vehicle)
-            #if new_vehicleboard[2][4] == 'X' and new_vehicleboard[2][5] == 'X':
-                #print "we won"
-                #print new_vehicleboard.__str__            
-            # wat misschien ook kan is
-            
-            if Vehicle('x', 4, 2, 'H') in new_vehicle:
-                print "We won! :)"
-                break
-            
-            # zo nee, volgende move halen en daarmee weer dit proces doorlopen.
-            else:
-                for new_vehicles in vehicles.get_moves(vehicles):
-                    Q.enqueue(new_vehicles)
-            # en dan hier alles            
-            #queue.extendleft((move, new_path) for move in board.moves())
-        
-        # get_moves callen per auto
-        # check for board state
-        # alle mogelijke moves van een auto
-        # moves hier maken 
-        # opslaan welke moves er zijn gemaakt met welke auto
-            # tuple aanmaken
+                for vehicle in new_vehicle:
+                    new_array = vehicle.id + str(vehicle.y) + str(vehicle.x) + vehicle.orientation
+                    print new_array
+                    old_boards[new_array] = 0
+                #print "New vehicle: " + new_vehicle
+
+            for vehicle in new_vehicle:
+                if vehicle.id == 'x' and vehicle.x == 3 and vehicle.y == 5 and vehicle.orientation == 'H':
+                    break
+                    print "we won!"
+
+                else:
+                    board = Board(6, 6, new_vehicle)
+                    for new_moves in board.get_moves(new_vehicle):
+                        Q.enqueue(new_moves)
+                        # print Q.size()
 
 if __name__ == '__main__':
     # filename is second argument given in command line
@@ -184,5 +177,9 @@ if __name__ == '__main__':
 
         # make a board of width = x and height = x
         board = Board(6, 6, vehicles)
-        print board
-        # breadthFirst(vehicles)
+        print board, '----'
+        move = board.get_moves(vehicles)
+        list1 =  list(move)
+        # print list1[0]
+
+        BreadthFirst(vehicles)
