@@ -7,7 +7,6 @@ class Vehicle(object):
         self.y = y
         self.orientation = orientation
 
-        
 # array for vehiclestrings, nodig nog ergens?
 new_vehicles = []
         
