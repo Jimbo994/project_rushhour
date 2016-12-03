@@ -1,10 +1,5 @@
 import sys
-import copy
 
-# array for vehiclestrings, nodig in class Vehicle
-new_vehicles = []
-
-# class for vehicles (/ moves?)
 class Vehicle(object):
     def __init__(self, id, x, y, orientation):
         self.id = id
@@ -12,8 +7,10 @@ class Vehicle(object):
         self.y = y
         self.orientation = orientation
 
-
-
+        
+# array for vehiclestrings, nodig nog ergens?
+new_vehicles = []
+        
 class Board(object):
     def __init__(self, width, height, vehicles):
         self.width = width
@@ -52,53 +49,46 @@ class Board(object):
 
     def get_moves(self, vehicles):
         board = self.get_board(vehicles)
-
+        
         for v in vehicles:
-            # check voor horizontale orientatie
+            # kijk of de auto horizontaal kan bewegen
             if v.orientation == 'H':
                 # check of auto naar links kan
                 if v.x - 1 >= 0 and board[v.y][v.x - 1] == '_':
-                    # move de vehicle, door nieuwe vehicle te maken met nieuwe x, die in array te zetten en oude weg te halen
+                    # move de vehicle, door x aan te passen
                     new_vehicles = copy.copy(vehicles)
                     for nv in new_vehicles:
                         if nv.id == v.id:
                             nv.x -= 1
-
-                    # print "test1"
                     yield new_vehicles
 
                 # check of auto naar rechts kan
                 if v.x + v.length < self.width and board[v.y][v.x + v.length] == '_':
-                    # move de vehicle, door nieuwe vehicle te maken met nieuwe x, die in array te zetten en oude weg te halen
+                    # move de vehicle, door x aan te passen
                     new_vehicles = copy.copy(vehicles)
                     for nv in new_vehicles:
                         if nv.id == v.id:
                             nv.x += 1
-                    # print "test2"
                     yield new_vehicles
 
-            #indien verticaal alleen omhoog en omlaag bewegen mogelijk.
+            # kijk of de auto verticaal kan bewegen
             if v.orientation == 'V':
                 # check of auto omhoog kan
                 if v.y - 1 >= 0 and board[v.y - 1][v.x] == '_':
-                    # move de vehicle, door nieuwe vehicle te maken met nieuwe y, die in array te zetten en oude weg te halen
+                    # move de vehicle, door y aan te passen
                     new_vehicles = copy.copy(vehicles)
                     for nv in new_vehicles:
                         if nv.id == v.id:
                             nv.y -= 1
-                    # print "test3"
-                    # print new_v
                     yield new_vehicles
 
                 # check of auto omlaag kan
                 if v.y + v.length < self.height and board[v.y + v.length][v.x] == '_':
-                    # move de vehicle, door nieuwe vehicle te maken met nieuwe y, die in array te zetten en oude weg te halen
+                    # move de vehicle, door y aan te passen
                     new_vehicles = copy.copy(vehicles)
                     for nv in new_vehicles:
                         if nv.id == v.id:
                             nv.y += 1
-                    # print "test4"
-                    # print v.y, 'to', new_v.y
                     yield new_vehicles
 
 class Queue(object):
@@ -177,9 +167,7 @@ if __name__ == '__main__':
 
         # make a board of width = x and height = x
         board = Board(6, 6, vehicles)
-        print board, '----'
         move = board.get_moves(vehicles)
         list1 =  list(move)
-        # print list1[0]
 
         BreadthFirst(vehicles)
