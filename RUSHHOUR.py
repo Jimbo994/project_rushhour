@@ -8,9 +8,6 @@ class Vehicle(object):
         self.y = y
         self.orientation = orientation
 
-# array for vehiclestrings, nodig nog ergens?
-new_configuration = []
-
 class Board(object):
     def __init__(self, width, height, configuration):
         self.width = width
@@ -160,7 +157,7 @@ if __name__ == '__main__':
             configuration.append(vehicle)
 
         # create board
-        board = Board(6, 66, configuration)
+        board = Board(6, 6, configuration)
         print board
 
         # check if moves are working
