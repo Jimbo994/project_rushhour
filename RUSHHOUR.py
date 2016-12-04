@@ -10,7 +10,7 @@ class Vehicle(object):
 
 # array for vehiclestrings, nodig nog ergens?
 new_configuration = []
-        
+
 class Board(object):
     def __init__(self, width, height, configuration):
         self.width = width
@@ -27,18 +27,19 @@ class Board(object):
     def get_board(self, configuration):
         board = [['_' for w in range(self.width)] for h in range(self.height)]
 
-        # Voor de nieuwe coordinaten gaat dit dan als volgt worden:
         for vehicle in configuration:
             orientation = vehicle.orientation
-            if vehicle.id >= 'A' and vehicle.id <= 'Z' or vehicle.id == '!' or vehicle.id == 'x':
-                vehicle.length = 2
-            elif vehicle.id >= 'a' and vehicle.id <= 'w':
-                vehicle.length = 3
-
             y = vehicle.y
             x = vehicle.x
             id = vehicle.id
 
+            # check id for length (x = red car)
+            if id >= 'A' and id <= 'Z' or id == '!' or id == 'x':
+                vehicle.length = 2
+            elif id >= 'a' and id <= 'w':
+                vehicle.length = 3
+
+            # put vehicles on board
             if orientation == 'H':
                 for i in range(vehicle.length):
                     board[y][x+i] = id
@@ -49,46 +50,46 @@ class Board(object):
 
     def get_moves(self, configuration):
         board = self.get_board(configuration)
-        
-        for v in configuration:
-            # kijk of de auto horizontaal kan bewegen
-            if v.orientation == 'H':
-                # check of auto naar links kan
-                if v.x - 1 >= 0 and board[v.y][v.x - 1] == '_':
-                    # move de vehicle, door x aan te passen
+
+        for vehicle in configuration:
+            # move vehicles horizontally
+            if vehicle.orientation == 'H':
+                # check if vehicle can move left
+                if vehicle.x - 1 >= 0 and board[vehicle.y][vehicle.x - 1] == '_':
+                    # move vehicle by changing x
                     new_configuration = copy.copy(configuration)
-                    for nv in new_configuration:
-                        if nv.id == v.id:
-                            nv.x -= 1
+                    for copied_vehicle in new_configuration:
+                        if copied_vehicle.id == vehicle.id:
+                            copied_vehicle.x -= 1
                     yield new_configuration
 
-                # check of auto naar rechts kan
-                if v.x + v.length < self.width and board[v.y][v.x + v.length] == '_':
-                    # move de vehicle, door x aan te passen
+                # check if vehicle can move right
+                if vehicle.x + vehicle.length < self.width and board[vehicle.y][vehicle.x + vehicle.length] == '_':
+                    # move vehicle by changing x
                     new_configuration = copy.copy(configuration)
-                    for nv in new_configuration:
-                        if nv.id == v.id:
-                            nv.x += 1
+                    for copied_vehicle in new_configuration:
+                        if copied_vehicle.id == vehicle.id:
+                            copied_vehicle.x += 1
                     yield new_configuration
 
-            # kijk of de auto verticaal kan bewegen
-            if v.orientation == 'V':
-                # check of auto omhoog kan
-                if v.y - 1 >= 0 and board[v.y - 1][v.x] == '_':
-                    # move de vehicle, door y aan te passen
+            # move vehicles vertically
+            if vehicle.orientation == 'V':
+                # check if vehicle can move up
+                if vehicle.y - 1 >= 0 and board[vehicle.y - 1][vehicle.x] == '_':
+                    # move vehicle by changing y
                     new_configuration = copy.copy(configuration)
-                    for nv in new_configuration:
-                        if nv.id == v.id:
-                            nv.y -= 1
+                    for copied_vehicle in new_configuration:
+                        if copied_vehicle.id == vehicle.id:
+                            copied_vehicle.y -= 1
                     yield new_configuration
 
-                # check of auto omlaag kan
-                if v.y + v.length < self.height and board[v.y + v.length][v.x] == '_':
-                    # move de vehicle, door y aan te passen
+                # check if vehicle can move down
+                if vehicle.y + vehicle.length < self.height and board[vehicle.y + vehicle.length][vehicle.x] == '_':
+                    # move vehicle by chaning y
                     new_configuration = copy.copy(configuration)
-                    for nv in new_configuration:
-                        if nv.id == v.id:
-                            nv.y += 1
+                    for copied_vehicle in new_configuration:
+                        if copied_vehicle.id == vehicle.id:
+                            copied_vehicle.y += 1
                     yield new_configuration
 
 class Queue(object):
@@ -109,28 +110,28 @@ class Queue(object):
 
 # HIER MOET NAAR GEKEKEN WORDEN!!!
 def BreadthFirst(configuration):
-    # maak archief & queue aan, stop vervolgens startconfiguratie in queue.
+    # create archive & queue - put configuration in queue
     old_boards = {}
     Q = Queue()
     Q.enqueue(configuration)
-    
-    # zoek naar oplossing door queue, zolang er iets in de queue staat. 
+
+    # find solution in queue, as long as there is a queue
     while Q.size() != 0:
         new_configuration = Q.dequeue()
         new_array = []
 
->>>>>   NEW ARRAY IS HIER EMPTY!?!?!?!?!?!?!?!?!
+# >>>>>   NEW ARRAY IS HIER EMPTY!?!?!?!?!?!?!?!?!
         # als configuratie al in archief staat, skip.
         if str(new_array) in old_boards:
                 continue
-                
+
         # anders, opslaan
         else:
             for vehicle in new_vehicle:
                 new_array = vehicle.id + str(vehicle.y) + str(vehicle.x) + vehicle.orientation
                 print new_array
                 old_boards[new_array] = 0
-                
+
             # check if red car is at winning position, else enqueue children
             for vehicle in new_vehicle:
                 if vehicle.id == 'x' and vehicle.x == 3 and vehicle.y == 5 and vehicle.orientation == 'H':
@@ -146,23 +147,25 @@ if __name__ == '__main__':
     filename = sys.argv[1]
     with open(filename) as file:
         configuration = []
-        
+
         # store cars with id, y, x (letters as coordinates) and orientation in Vehicle classes, then in array configuration
         for row in file:
             row = row[:-1]
-            id, x, y, orientation = line
-            
+            id, x, y, orientation = row
+
             # convert y & x to ascii (ord) and then to int
             y = int(ord(y) - 65)
             x = int(ord(x) - 65)
             vehicle = Vehicle(id, x, y, orientation)
             configuration.append(vehicle)
 
-        # make a board of width = x and height = x
-        board = Board(6, 6, configuration)
+        # create board
+        board = Board(6, 66, configuration)
         print board
-        
-        # start algorithm
+
+        # check if moves are working
         move = board.get_moves(configuration)
         list1 =  list(move)
-        BreadthFirst(configuration)
+
+        # run our awesome algorithm
+#        BreadthFirst(configuration)
