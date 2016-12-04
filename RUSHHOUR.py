@@ -106,27 +106,30 @@ class Queue(object):
         return len(self.items)
 
 # HIER MOET NAAR GEKEKEN WORDEN!!!
+# werkcollege: https://docs.python.org/2/tutorial/datastructures.html
+
 def BreadthFirst(configuration):
     # create archive & queue - put configuration in queue
-    old_boards = {}
+    archive = {}
     Q = Queue()
     Q.enqueue(configuration)
 
     # find solution in queue, as long as there is a queue
     while Q.size() != 0:
-        new_configuration = Q.dequeue()
-        new_array = []
+        current_configuration = Q.dequeue()
+        hashed_configuration = hash(current_configuration)
 
-# >>>>>   NEW ARRAY IS HIER EMPTY!?!?!?!?!?!?!?!?!
         # als configuratie al in archief staat, skip.
-        if str(new_array) in old_boards:
-                continue
+########## PUT hashed_confiuration in ARCHIVE < CODEER DIT >
+        if str(hashed_configuration) in old_boards:
+            continue
 
         # anders, opslaan
         else:
             for vehicle in new_vehicle:
                 new_array = vehicle.id + str(vehicle.y) + str(vehicle.x) + vehicle.orientation
                 print new_array
+                # WAT GEBEURT HIER?
                 old_boards[new_array] = 0
 
             # check if red car is at winning position, else enqueue children
