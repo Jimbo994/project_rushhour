@@ -1,5 +1,6 @@
 import sys
 import copy
+from collections import deque
 
 class Vehicle(object):
     def __init__(self, id, x, y, orientation):
@@ -53,42 +54,50 @@ class Board(object):
             if vehicle.orientation == 'H':
                 # check if vehicle can move left
                 if vehicle.x - 1 >= 0 and board[vehicle.y][vehicle.x - 1] == '_':
-                    # move vehicle by changing x
-                    new_configuration = copy.copy(configuration)
-                    for copied_vehicle in new_configuration:
-                        if copied_vehicle.id == vehicle.id:
-                            copied_vehicle.x -= 1
+                    # move vehicle 1 by changing x
+                    new_configuration = copy.deepcopy(configuration)
+                    vehicle.x -= 1
                     yield new_configuration
+                    # for copied_vehicle in new_configuration:
+                    #     if copied_vehicle.id == vehicle.id:
+                    #         copied_vehicle.x -= 1
+                    #         yield new_configuration
 
                 # check if vehicle can move right
                 if vehicle.x + vehicle.length < self.width and board[vehicle.y][vehicle.x + vehicle.length] == '_':
-                    # move vehicle by changing x
-                    new_configuration = copy.copy(configuration)
-                    for copied_vehicle in new_configuration:
-                        if copied_vehicle.id == vehicle.id:
-                            copied_vehicle.x += 1
+                    # move vehicle 1 by changing x
+                    new_configuration = copy.deepcopy(configuration)
+                    # for copied_vehicle in new_configuration:
+                    #     if copied_vehicle.id == vehicle.id:
+                    #         copied_vehicle.x += 1
+                    #         yield new_configuration
+                    vehicle.x += 1
                     yield new_configuration
 
             # move vehicles vertically
             if vehicle.orientation == 'V':
                 # check if vehicle can move up
                 if vehicle.y - 1 >= 0 and board[vehicle.y - 1][vehicle.x] == '_':
-                    # move vehicle by changing y
-                    new_configuration = copy.copy(configuration)
-                    for copied_vehicle in new_configuration:
-                        if copied_vehicle.id == vehicle.id:
-                            copied_vehicle.y -= 1
+                    # move vehicle 1 by changing y
+                    new_configuration = copy.deepcopy(configuration)
+                    # for copied_vehicle in new_configuration:
+                    #     if copied_vehicle.id == vehicle.id:
+                    #         copied_vehicle.y -= 1
+                    #         yield new_configuration
+                    vehicle.y -= 1
                     yield new_configuration
 
                 # check if vehicle can move down
                 if vehicle.y + vehicle.length < self.height and board[vehicle.y + vehicle.length][vehicle.x] == '_':
-                    # move vehicle by chaning y
-                    new_configuration = copy.copy(configuration)
-                    for copied_vehicle in new_configuration:
-                        if copied_vehicle.id == vehicle.id:
-                            copied_vehicle.y += 1
+                    # move vehicle 1 by chaning y
+                    new_configuration = copy.deepcopy(configuration)
+                    # for copied_vehicle in new_configuration:
+                        # if copied_vehicle.id == vehicle.id:
+                        #     copied_vehicle.y += 1
+                        #     yield new_configuration
+                    vehicle.y += 1
                     yield new_configuration
-
+                    
 class Queue(object):
     def __init__(self):
         self.items = []
@@ -104,43 +113,67 @@ class Queue(object):
 
     def size(self):
         return len(self.items)
-
+    
 # HIER MOET NAAR GEKEKEN WORDEN!!!
 # werkcollege: https://docs.python.org/2/tutorial/datastructures.html
+# http://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
+# https://jeremykun.com/tag/breadth-first-search/
 
 def BreadthFirst(configuration):
-    # create archive & queue - put configuration in queue
-    archive = {}
-    Q = Queue()
-    Q.enqueue(configuration)
+    archive = set()
+    queue = deque([configuration])
 
-    # find solution in queue, as long as there is a queue
-    while Q.size() != 0:
-        current_configuration = Q.dequeue()
-        hashed_configuration = hash(current_configuration)
-
-        # als configuratie al in archief staat, skip.
-########## PUT hashed_confiuration in ARCHIVE < CODEER DIT >
-        if str(hashed_configuration) in old_boards:
+    while len(queue) > 0:
+        # add to archive
+        # MOGELIJK NOG HASHEN?!
+        current_configuration = queue.pop()
+        for vehicle in current_configuration:
+            print vehicle.id, vehicle.x, vehicle.y
+        if str(current_configuration) in archive:
             continue
+        archive.add(str(current_configuration))
 
-        # anders, opslaan
-        else:
-            for vehicle in new_vehicle:
-                new_array = vehicle.id + str(vehicle.y) + str(vehicle.x) + vehicle.orientation
-                print new_array
-                # WAT GEBEURT HIER?
-                old_boards[new_array] = 0
+        # check if won
+        for vehicle in current_configuration:
+            if vehicle.id == 'x' and vehicle.x == 3 and vehicle.y == 5 and vehicle.orientation == 'H':
+                print "We won!"
+                return True
 
-            # check if red car is at winning position, else enqueue children
-            for vehicle in new_vehicle:
-                if vehicle.id == 'x' and vehicle.x == 3 and vehicle.y == 5 and vehicle.orientation == 'H':
-                    break
-                    print "We won!"
-                else:
-                    board = Board(6, 6, new_vehicle)
-                    for new_moves in board.get_moves(new_vehicle):
-                        Q.enqueue(new_moves)
+        for new_moves in board.get_moves(current_configuration):
+            if str(new_moves) not in archive:
+                queue.appendleft(new_moves)
+            print len(queue)
+
+    # # create archive & queue - put configuration in queue
+    # archive = {}
+    # Q = Queue()
+    # Q.enqueue(configuration)
+    #
+    # # find solution in queue, as long as there is a queue
+    # while Q.size() > 0:
+    #     current_configuration = Q.dequeue()
+        # for vehicle in current_configuration:
+        #     print vehicle.id, vehicle.x, vehicle.y
+        # hashed_configuration = hash(str(current_configuration))
+    #
+    #     # als configuratie al in archief staat, skip.
+    #     if hashed_configuration in archive:
+    #         continue
+    #         #__in___ ___eq___ ?
+    #
+    #     # anders, opslaan
+        # else:
+        #     archive[hashed_configuration] = 0
+    #
+    #         # check if red car is at winning position, else enqueue children
+    #         for vehicle in current_configuration:
+    #             if vehicle.id == 'x' and vehicle.x == 3 and vehicle.y == 5 and vehicle.orientation == 'H':
+    #                 print "We won!"
+                # else:
+                #     board = Board(6, 6, current_configuration)
+                #     for new_moves in board.get_moves(current_configuration):
+                #         Q.enqueue(new_moves)
+                #         print Q.size()
 
 if __name__ == '__main__':
     # open problem on board
