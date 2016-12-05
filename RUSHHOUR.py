@@ -56,23 +56,19 @@ class Board(object):
                 if vehicle.x - 1 >= 0 and board[vehicle.y][vehicle.x - 1] == '_':
                     # move vehicle 1 by changing x
                     new_configuration = copy.deepcopy(configuration)
-                    vehicle.x -= 1
-                    yield new_configuration
-                    # for copied_vehicle in new_configuration:
-                    #     if copied_vehicle.id == vehicle.id:
-                    #         copied_vehicle.x -= 1
-                    #         yield new_configuration
+                    for copied_vehicle in new_configuration:
+                        if copied_vehicle.id == vehicle.id:
+                            copied_vehicle.x -= 1
+                            yield new_configuration
 
                 # check if vehicle can move right
                 if vehicle.x + vehicle.length < self.width and board[vehicle.y][vehicle.x + vehicle.length] == '_':
                     # move vehicle 1 by changing x
                     new_configuration = copy.deepcopy(configuration)
-                    # for copied_vehicle in new_configuration:
-                    #     if copied_vehicle.id == vehicle.id:
-                    #         copied_vehicle.x += 1
-                    #         yield new_configuration
-                    vehicle.x += 1
-                    yield new_configuration
+                    for copied_vehicle in new_configuration:
+                        if copied_vehicle.id == vehicle.id:
+                            copied_vehicle.x += 1
+                            yield new_configuration
 
             # move vehicles vertically
             if vehicle.orientation == 'V':
@@ -80,23 +76,19 @@ class Board(object):
                 if vehicle.y - 1 >= 0 and board[vehicle.y - 1][vehicle.x] == '_':
                     # move vehicle 1 by changing y
                     new_configuration = copy.deepcopy(configuration)
-                    # for copied_vehicle in new_configuration:
-                    #     if copied_vehicle.id == vehicle.id:
-                    #         copied_vehicle.y -= 1
-                    #         yield new_configuration
-                    vehicle.y -= 1
-                    yield new_configuration
+                    for copied_vehicle in new_configuration:
+                        if copied_vehicle.id == vehicle.id:
+                            copied_vehicle.y -= 1
+                            yield new_configuration
 
                 # check if vehicle can move down
                 if vehicle.y + vehicle.length < self.height and board[vehicle.y + vehicle.length][vehicle.x] == '_':
                     # move vehicle 1 by chaning y
                     new_configuration = copy.deepcopy(configuration)
-                    # for copied_vehicle in new_configuration:
-                        # if copied_vehicle.id == vehicle.id:
-                        #     copied_vehicle.y += 1
-                        #     yield new_configuration
-                    vehicle.y += 1
-                    yield new_configuration
+                    for copied_vehicle in new_configuration:
+                        if copied_vehicle.id == vehicle.id:
+                            copied_vehicle.y += 1
+                            yield new_configuration
                     
 class Queue(object):
     def __init__(self):
@@ -119,16 +111,21 @@ class Queue(object):
 # http://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
 # https://jeremykun.com/tag/breadth-first-search/
 
+
+
+# Ipv list (data objecten) moeten we terug naar de string van problem2 - dat dan hashen
+# DUS HASHEN DIE HAP!!
+
 def BreadthFirst(configuration):
     archive = set()
     queue = deque([configuration])
 
     while len(queue) > 0:
         # add to archive
-        # MOGELIJK NOG HASHEN?!
         current_configuration = queue.pop()
         for vehicle in current_configuration:
             print vehicle.id, vehicle.x, vehicle.y
+            
         if str(current_configuration) in archive:
             continue
         archive.add(str(current_configuration))
