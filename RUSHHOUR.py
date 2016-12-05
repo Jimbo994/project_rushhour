@@ -45,7 +45,8 @@ class Board(object):
                 for i in range(vehicle.length):
                     board[y+i][x] = id
         return board
-
+    
+    # BIJ MOVES MOETEN WE NOG MEERDERE STAPPEN KUNNEN DOEN
     def get_moves(self, configuration):
         board = self.get_board(configuration)
 
@@ -89,58 +90,64 @@ class Board(object):
                         if copied_vehicle.id == vehicle.id:
                             copied_vehicle.y += 1
                             yield new_configuration
-                    
-class Queue(object):
-    def __init__(self):
-        self.items = []
 
-    def isEmpty(self):
-        return self.items == []
+# ALS HET GOED IS NIET MEER NODIG                            
+# class Queue(object):
+#     def __init__(self):
+#         self.items = []
 
-    def enqueue(self, item):
-        self.items.insert(0, item)
+#     def isEmpty(self):
+#         return self.items == []
 
-    def dequeue(self):
-        return self.items.pop()
+#     def enqueue(self, item):
+#         self.items.insert(0, item)
 
-    def size(self):
-        return len(self.items)
+#     def dequeue(self):
+#         return self.items.pop()
+
+#     def size(self):
+#         return len(self.items)
     
 # HIER MOET NAAR GEKEKEN WORDEN!!!
 # werkcollege: https://docs.python.org/2/tutorial/datastructures.html
 # http://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
 # https://jeremykun.com/tag/breadth-first-search/
 
-
-
 # Ipv list (data objecten) moeten we terug naar de string van problem2 - dat dan hashen
-# DUS HASHEN DIE HAP!!
-
 def BreadthFirst(configuration):
+    #create archive & queueue 
     archive = set()
     queue = deque([configuration])
 
     while len(queue) > 0:
         # add to archive
         current_configuration = queue.pop()
-        for vehicle in current_configuration:
-            print vehicle.id, vehicle.x, vehicle.y
-            
-        if str(current_configuration) in archive:
+#         for vehicle in current_configuration:
+#             print vehicle.id, vehicle.x, vehicle.y
+        
+        # HIER MOETEN WE VAN ONZE CURRENT_CONFIGURATION (LIST OF VEHICLES) WEER EEN STRING MAKEN
+        stringcars = ""
+        stringcars += [INSERT DINGEN]
+        hashed = hash(stringcars)
+        if hashed in archive:
             continue
-        archive.add(str(current_configuration))
+        else: 
+            archive.add(hashed)
 
         # check if won
         for vehicle in current_configuration:
             if vehicle.id == 'x' and vehicle.x == 3 and vehicle.y == 5 and vehicle.orientation == 'H':
                 print "We won!"
                 return True
-
+        board = Board(6, 6, current_configuration)
         for new_moves in board.get_moves(current_configuration):
+            # HIER MOET JE DUS OOK WEER EERST EEN STRING MAKEN EN DAN HASHEN
+            # DEZE IS LASTIGER DENK IK? D:
             if str(new_moves) not in archive:
                 queue.appendleft(new_moves)
             print len(queue)
 
+    # MOGELIJK NIET MEER NODIG        
     # # create archive & queue - put configuration in queue
     # archive = {}
     # Q = Queue()
@@ -163,9 +170,7 @@ def BreadthFirst(configuration):
         #     archive[hashed_configuration] = 0
     #
     #         # check if red car is at winning position, else enqueue children
-    #         for vehicle in current_configuration:
-    #             if vehicle.id == 'x' and vehicle.x == 3 and vehicle.y == 5 and vehicle.orientation == 'H':
-    #                 print "We won!"
+
                 # else:
                 #     board = Board(6, 6, current_configuration)
                 #     for new_moves in board.get_moves(current_configuration):
