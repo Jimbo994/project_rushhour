@@ -102,14 +102,17 @@ def BreadthFirst(configuration):
 
     while len(queue) > 0:
         current_configuration = queue.pop()
-####    HIER MOETEN WE VAN ONZE CURRENT_CONFIGURATION (LIST OF VEHICLES) WEER EEN STRING MAKEN
-####        # stringcars = ""
-####        # stringcars += [INSERT DINGEN]
-####        # hashed = hash(stringcars)
-####        # if hashed in archive:
-####        #     continue
-####        # else:
-####        #     archive.add(hashed)
+        stringcars = ""
+        for vehicles in current_configuration:
+            stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation) +"\n"
+            stringcars += stringvehicle
+        print stringcars
+        # HIER ZIJN COORDINATEN GETALLEN IPV LETTERS, MAAKT DAT UIT?
+        hashed = hash(stringcars)
+        if hashed in archive:
+            continue
+        else:
+             archive.add(hashed)
 
         # check if won
         for vehicle in current_configuration:
