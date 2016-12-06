@@ -91,7 +91,6 @@ class Board(object):
         print "dit zijn moves:", children
         yield children
 
-# werkcollege: https://docs.python.org/2/tutorial/datastructures.html
 # http://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
 # https://jeremykun.com/tag/breadth-first-search/
 
@@ -103,27 +102,26 @@ def BreadthFirst(configuration):
 
     while len(queue) > 0:
         current_configuration = queue.pop()
-        # # HIER MOETEN WE VAN ONZE CURRENT_CONFIGURATION (LIST OF VEHICLES) WEER EEN STRING MAKEN
-        # stringcars = ""
-        # stringcars += [INSERT DINGEN]
-        # hashed = hash(stringcars)
-        # if hashed in archive:
-        #     continue
-        # else:
-        #     archive.add(hashed)
+####    HIER MOETEN WE VAN ONZE CURRENT_CONFIGURATION (LIST OF VEHICLES) WEER EEN STRING MAKEN
+####        # stringcars = ""
+####        # stringcars += [INSERT DINGEN]
+####        # hashed = hash(stringcars)
+####        # if hashed in archive:
+####        #     continue
+####        # else:
+####        #     archive.add(hashed)
 
         # check if won
         for vehicle in current_configuration:
             if vehicle.id == 'x' and vehicle.x == 3 and vehicle.y == 5 and vehicle.orientation == 'H':
-                print "We won!"
+                print "We won! :D"
                 return True
         board = Board(6, 6, current_configuration)
-        for new_children in board.get_moves(current_configuration):
-            # HIER MOET JE DUS OOK WEER EERST EEN STRING MAKEN EN DAN HASHEN
-            # DEZE IS LASTIGER DENK IK? D:
-            if str(new_moves) not in archive:
-                queue.appendleft(new_moves)
-            print len(queue)
+        for all_children in board.get_moves(current_configuration):
+####        all_children zijn hier strings in een list. Die moet je dus eerst weer omzetten.
+####        if str(new_moves) not in archive:
+####            queue.appendleft(new_moves)
+####        print len(queue)
 
 if __name__ == '__main__':
     # open problem on board
@@ -135,7 +133,6 @@ if __name__ == '__main__':
         for row in file:
             row = row[:-1]
             id, x, y, orientation = row
-
             # convert y & x to ascii (ord) and then to int
             y = int(ord(y) - 65)
             x = int(ord(x) - 65)
