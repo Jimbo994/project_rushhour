@@ -118,7 +118,7 @@ def BreadthFirst(configuration):
                 return True
         board = Board(6, 6, current_configuration)
         for all_children in board.get_moves(current_configuration):
-####        all_children zijn hier strings in een list. Die moet je dus eerst weer omzetten.
+####        all_children zijn hier nog objects in een list. Die moet je dus eerst weer omzetten.
 ####        if str(new_moves) not in archive:
 ####            queue.appendleft(new_moves)
 ####        print len(queue)
