@@ -106,8 +106,10 @@ def BreadthFirst(configuration):
         for vehicles in current_configuration:
             stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation) +"\n"
             stringcars += stringvehicle
+        
         print stringcars
         # HIER ZIJN COORDINATEN GETALLEN IPV LETTERS, MAAKT DAT UIT?
+        
         hashed = hash(stringcars)
         if hashed in archive:
             continue
@@ -119,8 +121,18 @@ def BreadthFirst(configuration):
             if vehicle.id == 'x' and vehicle.x == 3 and vehicle.y == 5 and vehicle.orientation == 'H':
                 print "We won! :D"
                 return True
+            
         board = Board(6, 6, current_configuration)
-        for all_children in board.get_moves(current_configuration):
+        for children in board.get_moves(current_configuration):
+            string = ""
+            for configuration in children:
+                for cars in configuration:
+                    stringvehicles = str(cars.id) + str(cars.x) + str(cars.y) + str(cars.orientation) +"\n"
+                    string += stringvehicles
+                    children_hashed = hash(string)
+                    if children_hashed not in archive:
+                        queue.appendleft(configuration)
+####        for all_children in board.get_moves(current_configuration):
 ####        all_children zijn hier nog objects in een list. Die moet je dus eerst weer omzetten.
 ####        if str(new_moves) not in archive:
 ####            queue.appendleft(new_moves)
