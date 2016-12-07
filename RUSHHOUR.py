@@ -88,46 +88,113 @@ class Board(object):
                             if copied_vehicle.id == vehicle.id:
                                 copied_vehicle.y += i
                                 children.append(new_configuration)
-        print "dit zijn moves:", children
+        #print "dit zijn moves:", children
         yield children
 
 # http://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
 # https://jeremykun.com/tag/breadth-first-search/
 
 def BreadthFirst(configuration):
+<<<<<<< HEAD
+    #create archive & queueue
+    #archive = set()
+    archive = dict()
+    
+=======
     #create archive & queue
     archive = set()
+>>>>>>> origin/master
     queue = deque([configuration])
-
+    stringstart = ""
+    for vehicles in configuration:
+        stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation)+"\n"
+        stringstart += stringvehicle
+    archive[stringstart] = None
+    counter = 0
+    
     while len(queue) > 0:
         current_configuration = queue.pop()
+        counter += 1
+        #print counter
         stringcars = ""
         for vehicles in current_configuration:
-            stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation) +"\n"
+            stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation)+"\n"
             stringcars += stringvehicle
+<<<<<<< HEAD
+    
+        #hashed = hash(stringcars)
+        #if stringcars in archive:
+         #   continue
+        #else:
+         #   archive[stringcars] = stringcars
+             #archive.add(hashed)
+=======
             
         hashed = hash(stringcars)
         if hashed in archive:
             continue
         else:
              archive.add(hashed)
+>>>>>>> origin/master
 
         # check if won
         for vehicle in current_configuration:
             if vehicle.id == 'x' and vehicle.x == 4 and vehicle.y == 2 and vehicle.orientation == 'H':
+<<<<<<< HEAD
+                string = ""
+=======
+>>>>>>> origin/master
                 print "We won! :D"
-                return True
-            
-        board = Board(6, 6, current_configuration)
-        for children in board.get_moves(current_configuration):
-            string = ""
-            for configuration in children:
-                for cars in configuration:
+                for cars in current_configuration:
                     stringvehicles = str(cars.id) + str(cars.x) + str(cars.y) + str(cars.orientation) +"\n"
                     string += stringvehicles
+                print string
+                
+                parent = archive[string]
+                #print parent
+                #print archive[parent]
+                i = 0
+                while archive[parent] != None:
+                    parent = archive[parent]
+                    print 'huidige \n', parent
+                    i = i + 1
+                print "aantal stappen", i
+                    
+                    
+                    
+                
+                
+                    #for vehicle in current_configuration:
+                 #   print vehicle.id, vehicle.x, vehicle.y, vehicle.orientation
+                print counter
+                return True
+
+        #board2 = Board(6, 6, current_configuration)
+        #print 'hieronder'
+        #print board2 
+        for children in board.get_moves(current_configuration):
+            for configuration in children:
+                string = ""
+                for cars in configuration:
+                    stringvehicles = str(cars.id) + str(cars.x) + str(cars.y) + str(cars.orientation)+"\n"
+                    string += stringvehicles
+<<<<<<< HEAD
+                if string not in archive:
+                    queue.appendleft(configuration)
+                    archive[string] = stringcars
+####        for all_children in board.get_moves(current_configuration):
+####        all_children zijn hier nog objects in een list. Die moet je dus eerst weer omzetten.
+####        if str(new_moves) not in archive:
+####            queue.appendleft(new_moves)
+####        print len(queue)
+=======
                     children_hashed = hash(string)
                     if children_hashed not in archive:
                         queue.appendleft(configuration)
+>>>>>>> origin/master
+
+#def solution:
+    
 
 if __name__ == '__main__':
     # open problem on board
@@ -148,6 +215,7 @@ if __name__ == '__main__':
         # create board
         board = Board(6, 6, configuration)
         print board
-
-        # run our awesome algorithm
         BreadthFirst(configuration)
+        # run our awesome algorithm
+        #newboard = Board(6, 6, BreadthFirst(configuration))
+        #print newboard
