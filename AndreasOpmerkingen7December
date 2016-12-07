@@ -8,7 +8,7 @@ Maar daar kunnen we de komende week wel in verbeteren.
 3) De get_moves() doet nu dus maar 1 stapje. Laten we volgende week gaan kijken hoe we die meerdere stapjes kunnen laten zetten.
 En daarbij dus NIET VERGETEN ALLE PLEKKEN TE CHECKEN OP EEN LEGE RUIMTE VOOR NUL TOT I!
 
-4) Mogelijk duurt het als we dat opgelost hebben, ook minder lang. En werkt misschien 9 bij 9 dan ook wel.
+4) Mogelijk duurt het algoritme runnen, als we dat ^ opgelost hebben, ook minder lang. En werkt misschien 9 bij 9 dan ook wel.
 
 Wat jullie kunnen zeggen morgen over wat we nog de komende weken willen is dus het volgende:
 - Meerdere stapjes in 1 move kunnen doen
