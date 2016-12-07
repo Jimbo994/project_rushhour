@@ -115,7 +115,7 @@ def BreadthFirst(configuration):
 
         # check if current configuration is won
         for vehicle in current_configuration:
-            if vehicle.id == 'x' and vehicle.x == 7 and vehicle.y == 4 and vehicle.orientation == 'H':
+            if vehicle.id == 'x' and vehicle.x == 4 and vehicle.y == 2 and vehicle.orientation == 'H':
                 print "Apparently we won! :D"
                 print "Winning String:", stringcars
 
@@ -157,7 +157,7 @@ if __name__ == '__main__':
             configuration.append(vehicle)
 
         # create board
-        board = Board(9, 9, configuration)
+        board = Board(6, 6, configuration)
         print board
 
         # run algorithme
