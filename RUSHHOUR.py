@@ -94,9 +94,8 @@ class Board(object):
 # http://stackoverflow.com/questions/8922060/how-to-trace-the-path-in-a-breadth-first-search
 # https://jeremykun.com/tag/breadth-first-search/
 
-# Ipv list (data objecten) moeten we terug naar de string van problem2 - dat dan hashen
 def BreadthFirst(configuration):
-    #create archive & queueue
+    #create archive & queue
     archive = set()
     queue = deque([configuration])
 
@@ -106,10 +105,7 @@ def BreadthFirst(configuration):
         for vehicles in current_configuration:
             stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation) +"\n"
             stringcars += stringvehicle
-        
-        print stringcars
-        # HIER ZIJN COORDINATEN GETALLEN IPV LETTERS, MAAKT DAT UIT?
-        
+            
         hashed = hash(stringcars)
         if hashed in archive:
             continue
@@ -118,7 +114,7 @@ def BreadthFirst(configuration):
 
         # check if won
         for vehicle in current_configuration:
-            if vehicle.id == 'x' and vehicle.x == 3 and vehicle.y == 5 and vehicle.orientation == 'H':
+            if vehicle.id == 'x' and vehicle.x == 4 and vehicle.y == 2 and vehicle.orientation == 'H':
                 print "We won! :D"
                 return True
             
@@ -132,11 +128,6 @@ def BreadthFirst(configuration):
                     children_hashed = hash(string)
                     if children_hashed not in archive:
                         queue.appendleft(configuration)
-####        for all_children in board.get_moves(current_configuration):
-####        all_children zijn hier nog objects in een list. Die moet je dus eerst weer omzetten.
-####        if str(new_moves) not in archive:
-####            queue.appendleft(new_moves)
-####        print len(queue)
 
 if __name__ == '__main__':
     # open problem on board
