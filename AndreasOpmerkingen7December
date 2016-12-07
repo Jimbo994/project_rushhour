@@ -24,7 +24,7 @@ MAAR DAT WE NU EEN WERKENDE GET MOVES HEBBEN ENNNNNN OOK KUNNEN ZIEN HOE DE OPLO
 DAT HAD TEAM CHICKIES VORIGE WEEK NOG NIET NAMELIJK!
 
 ------------------------------------------
-HIERBIJ DE OPLOSSINGEN VAN PROBLEM 1 TM 3:
+HIERBIJ DE OPLOSSINGEN VAN PROBLEM 1 TM 4:
 
 1: Totaal aantal gezette stappen: 82
 Totaal aantal bezochte configuraties: 8694
@@ -33,7 +33,10 @@ Totaal aantal bezochte configuraties: 8694
 Totaal aantal bezochte configuraties: 3835   
 
 3: Totaal aantal gezette stappen: 34
-Totaal aantal bezochte configuraties: 559      
+Totaal aantal bezochte configuraties: 559
+
+4: Totaal aantal gezette stappen: 50
+Totaal aantal bezochte configuraties: 331554
 ------------------------------------------
 Ik heb hieronder de geprinte parent-lijst van problem 2 gezet. Dit zijn er 16:
 
