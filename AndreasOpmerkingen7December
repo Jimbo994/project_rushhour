@@ -1,6 +1,6 @@
 Abe zei de volgende dingen:
 
-1) Wij hebben nu board[y][x], dat hoort gewoon niet, dat is raar. Ik heb daarom nu alles weer [x][y] gemaakt.
+1) Wij hebben nu board[y][x], dat hoort gewoon niet, dat is raar volgens hem. Ik heb daarom nu alles maar weer [x][y] gemaakt.
 
 2) Uberhaupt is onze code best lelijk en staat het algoritme heel raar opgeschreven. Ik heb wel een aantal variabelen namen aangepast..
 Maar daar kunnen we de komende week wel in verbeteren.
