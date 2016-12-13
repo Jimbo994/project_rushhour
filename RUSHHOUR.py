@@ -107,27 +107,33 @@ def BreadthFirst(configuration):
         current_configuration = queue.pop()
         counter += 1
         stringcars = ""
+        winning_state = 0
 
         # create string of currently checked configuration
         for vehicles in current_configuration:
             stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation)
+            if stringvehicle == 'x42H':
+                winning_state = 1
             stringcars += stringvehicle
-
-        # check if current configuration is won
-        for vehicle in current_configuration:
-            if vehicle.id == 'x' and vehicle.x == 4 and vehicle.y == 2 and vehicle.orientation == 'H':
-                print "Apparently we won! :D"
-                print "Winning String:", stringcars
-
-                i = 0
-                parent = archive[stringcars]
-                while archive[parent] != None:
-                    parent = archive[parent]
-                    print 'Parents:\n', parent
-                    i = i + 1
-                print "Totaal aantal gezette stappen:", i
-                print "Totaal aantal bezochte configuraties:", counter
-                return True
+        if winning_state == 1:
+            steps_taken = 0
+            parent = archive[stringcars]
+            while archive[parent] != None:
+                index = 0
+                child = parent
+                parent = archive[parent]
+                for bla in child:
+                    if parent[i] != child[i] and str.isalpha(parent[i-1])
+                            print parent[i-1]+parent[i]+parent[i+1]+parent[i+2]
+                        elif parent[i] != child[i]:
+                            print parent[i-2]+parent[i-1]+parent[i]+parent[i+1]
+                    # update the index
+                    index += 1
+                # update steps_taken
+                steps_taken += 1
+            print "Totaal aantal gezette stappen:", steps_taken
+            print "Totaal aantal bezochte configuraties:", counter
+            return True
 
         # get_moves yields list of list of objects
         for children in board.get_moves(current_configuration):
