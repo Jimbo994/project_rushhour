@@ -123,7 +123,7 @@ def BreadthFirst(configuration):
                 child = parent
                 parent = archive[parent]
                 for bla in child:
-                    if parent[i] != child[i] and str.isalpha(parent[i-1])
+                    if parent[i] != child[i] and str.isalpha(parent[i-1]):
                             print parent[i-1]+parent[i]+parent[i+1]+parent[i+2]
                         elif parent[i] != child[i]:
                             print parent[i-2]+parent[i-1]+parent[i]+parent[i+1]
