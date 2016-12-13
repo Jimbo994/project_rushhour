@@ -119,16 +119,16 @@ def BreadthFirst(configuration):
             steps_taken = 0
             parent = archive[stringcars]
             while archive[parent] != None:
-                index = 0
+                i = 0
                 child = parent
                 parent = archive[parent]
                 for bla in child:
                     if parent[i] != child[i] and str.isalpha(parent[i-1]):
                             print parent[i-1]+parent[i]+parent[i+1]+parent[i+2]
-                        elif parent[i] != child[i]:
-                            print parent[i-2]+parent[i-1]+parent[i]+parent[i+1]
+                    elif parent[i] != child[i]:
+                        print parent[i-2]+parent[i-1]+parent[i]+parent[i+1]
                     # update the index
-                    index += 1
+                    i += 1
                 # update steps_taken
                 steps_taken += 1
             print "Totaal aantal gezette stappen:", steps_taken
