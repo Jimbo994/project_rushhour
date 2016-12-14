@@ -145,9 +145,9 @@ def BreadthFirst(configuration):
                 parent = archive[parent]
                 for bla in child:
                     if parent[i] != child[i] and str.isalpha(parent[i-1]):
-                            print parent[i-1]+parent[i]+parent[i+1]+parent[i+2]
+                        print "from", child[i-1]+child[i]+child[i+1]+child[i+2], "to", parent[i-1]+parent[i]+parent[i+1]+parent[i+2]
                     elif parent[i] != child[i]:
-                        print parent[i-2]+parent[i-1]+parent[i]+parent[i+1]
+                        print "from", child[i-2]+child[i-1]+child[i]+child[i+1], "to", parent[i-2]+parent[i-1]+parent[i]+parent[i+1]
                     # update the index
                     i += 1
                 # update steps_taken
