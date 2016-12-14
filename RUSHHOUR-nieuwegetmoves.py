@@ -40,10 +40,10 @@ class Board(object):
             # put vehicles on board
             if orientation == 'H':
                 for i in range(vehicle.length):
-                    board[x+i][y] = id
+                    board[y][x+i] = id
             else:
                 for i in range(vehicle.length):
-                    board[x][y+i] = id
+                    board[y+i][x] = id
         return board
 
     def get_moves(self, configuration):
@@ -59,7 +59,7 @@ class Board(object):
                 while a < n:
                     # check if vehicle can move left & change x coordinate
                     a += 1
-                    if vehicle.x - a >= 0 and board[vehicle.x - a][vehicle.y] == '_':
+                    if vehicle.x - a >= 0 and board[vehicle.y][vehicle.x-a] == '_':
                         n += 1
                         new_configuration = copy.deepcopy(configuration)
                         for copied_vehicle in new_configuration:
@@ -72,7 +72,7 @@ class Board(object):
                 # check if vehicle can move right & change x coordinate
                 while a < n:
                     a += 1
-                    if vehicle.x+a + vehicle.length-1 < self.width and board[vehicle.x+a + vehicle.length-1][vehicle.y] == '_':
+                    if vehicle.x+a + vehicle.length-1 < self.width and board[vehicle.y][vehicle.x+a + vehicle.length-1] == '_':
                         n += 1
                         new_configuration = copy.deepcopy(configuration)
                         for copied_vehicle in new_configuration:
@@ -87,7 +87,7 @@ class Board(object):
                 while a < n:
                     a += 1
                     # check if vehicle can move up & change y coordinate
-                    if vehicle.y -a  >= 0 and board[vehicle.x][vehicle.y - a] == '_':
+                    if vehicle.y -a  >= 0 and board[vehicle.y - a][vehicle.x] == '_':
                         n +=1
                         new_configuration = copy.deepcopy(configuration)
                         for copied_vehicle in new_configuration:
@@ -100,7 +100,7 @@ class Board(object):
                 a = 0
                 while a < n:
                     a += 1
-                    if vehicle.y + a + vehicle.length-1 < self.height and board[vehicle.x][vehicle.y + a + vehicle.length-1] == '_':
+                    if vehicle.y + a + vehicle.length-1 < self.height and board[vehicle.y + a + vehicle.length-1][vehicle.x] == '_':
                         n += 1
                         new_configuration = copy.deepcopy(configuration)
                         for copied_vehicle in new_configuration:
