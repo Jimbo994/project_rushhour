@@ -2,6 +2,7 @@ import sys
 import copy
 from collections import deque
 import random
+import numpy
 
 class Vehicle(object):
     def __init__(self, id, x, y, orientation):
@@ -165,13 +166,13 @@ def Random(configuration):
         # get_moves yields list of list of objects
         for children in board.get_moves(current_configuration):
             stringCurrentConfiguration = ""
-            a = random.randrange(len(children))
-            print children[a]
-            stringvehicles = str(children[a].id) + str(children[a].x) + str(children[a].y) + str(children[a].orientation)
-            stringCurrentConfiguration += stringvehicles
+            randomvehiclearray = numpy.random.choice(children)
+            for cars in randomvehiclearray:
+                stringvehicles = str(cars.id) + str(cars.x) + str(cars.y) + str(cars.orientation)
+                stringCurrentConfiguration += stringvehicles
 
             if (stringCurrentConfiguration not in short_memory_archive):
-                queue.appendleft(children[a])
+                queue.appendleft(randomvehiclearray)
                 archive[stringCurrentConfiguration] = stringcars
                 short_memory_archive[stringCurrentConfiguration] = None
 
