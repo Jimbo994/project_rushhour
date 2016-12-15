@@ -109,14 +109,15 @@ class Board(object):
                             if copied_vehicle.id == vehicle.id:
                                 copied_vehicle.y += a 
                                 children.append(new_configuration)
-        randomvehiclearray = numpy.random.choice(children) 
-        return randomvehiclearray
+        
+        #randomvehiclearray = random.choice(children) 
+        return children
 
 # https://jeremykun.com/tag/breadth-first-search/
 
 def Random(configuration):
     #create archive & queue
-    #archive = {}
+    archive = {}
     short_memory_archive = {}
     counter = 0
     queue = deque([configuration])
@@ -126,62 +127,81 @@ def Random(configuration):
     for vehicles in configuration:
         stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation)
         stringStartingConfiguration += stringvehicle
-    #archive[stringStartingConfiguration] = None
+   
+    #print stringStartingConfiguration
+        
+    archive[stringStartingConfiguration] = None
     #short_memory_archive[stringStartingConfiguration] = None
 
     while len(queue) > 0:
-        print counter
+        if counter > 500:
+            break
+        #print counter
         current_configuration = queue.pop()
         counter += 1
         stringcars = ""
         winning_state = 0
         
-        if short_memory_archive.items > 0:
+        if short_memory_archive.items > 1:
             short_memory_archive.pop
+            
 
         # create string of currently checked configuration
         for vehicles in current_configuration:
             stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation)
-            if stringvehicle == 'x42H':
+            if stringvehicle == 'x105H':
                 winning_state = 1
             stringcars += stringvehicle
         if winning_state == 1:
-            #steps_taken = 0
-            #parent = archive[stringcars]
-            #while archive[parent] != None:
-                #i = 0
-                #child = parent
-                #parent = archive[parent]
-                #for bla in child:
-                    #if parent[i] != child[i] and str.isalpha(parent[i-1]):
-                            #print parent[i-1]+parent[i]+parent[i+1]+parent[i+2]
-                    #elif parent[i] != child[i]:
-                        #print parent[i-2]+parent[i-1]+parent[i]+parent[i+1]
+            steps_taken = 0
+            parent = archive[stringcars]
+            while archive[parent] != None:
+                i = 0
+                child = parent
+                parent = archive[parent]
+                for bla in child:
+                    if parent[i] != child[i] and str.isalpha(parent[i-1]):
+                        print "from", child[i-1]+child[i]+child[i+1]+child[i+2], "to", parent[i-1]+parent[i]+parent[i+1]+parent[i+2]
+                    elif parent[i] != child[i]:
+                        print "from", child[i-2]+child[i-1]+child[i]+child[i+1], "to", parent[i-2]+parent[i-1]+parent[i]+parent[i+1]
                     # update the index
-                    #i += 1
+                    i += 1
                 # update steps_taken
-                #steps_taken += 1
+                steps_taken += 1
             #print "Totaal aantal gezette stappen:", steps_taken
             print "Totaal aantal bezochte configuraties:", counter
-            return True
+            return counter
 
         # get_moves yields list of list of objects
         #randomvehiclearray = board.get_moves(current_configuration):
         a = 0
+        b = 0
         while a != 1:
+            if b > 5:
+                break
+            children = []
             stringCurrentConfiguration = ""
-            new_configuration = board.get_moves(current_configuration)
+            children = board.get_moves(current_configuration)
+            randomchoice = random.choice(children)
         
             #randomvehiclearray = numpy.random.choice(children)
-            for cars in new_configuration:
+            for cars in randomchoice:
                 stringvehicles = str(cars.id) + str(cars.x) + str(cars.y) + str(cars.orientation)
                 stringCurrentConfiguration += stringvehicles
 
-                if (stringCurrentConfiguration not in short_memory_archive):
-                    queue.appendleft(new_configuration)
-                    #archive[stringCurrentConfiguration] = stringcars
-                    short_memory_archive[stringCurrentConfiguration] = None
-                    a =1
+            if (stringCurrentConfiguration not in short_memory_archive):
+                queue.appendleft(randomchoice)
+                archive[stringCurrentConfiguration] = stringcars
+                short_memory_archive[stringCurrentConfiguration] = None
+                a = 1
+                b = 0
+            else:
+                #randomchoice = random.choice(children)
+                #short_memory_archive[stringCurrentConfiguration] = None
+                b += 1
+            
+                #print stringCurrentConfiguration
+        
                     
                 
                 
@@ -205,11 +225,13 @@ if __name__ == '__main__':
             configuration.append(vehicle)
 
         # create board
-        board = Board(6, 6, configuration)
+        board = Board(12,12, configuration)
         print board
-
+        
+        results = []
         # run algorithme
-        for i in range(0, 500):
-            print i
-            Random(configuration)
+        for i in range(0, 1000):
+            print "iteration: ", i
+            results.append(Random(configuration))
+            print sorted(results)
         

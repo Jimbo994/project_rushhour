@@ -133,7 +133,7 @@ def BreadthFirst(configuration):
         # create string of currently checked configuration
         for vehicles in current_configuration:
             stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation)
-            if stringvehicle == 'x74H':
+            if stringvehicle == 'x42H':
                 winning_state = 1
             stringcars += stringvehicle
         if winning_state == 1:
@@ -184,7 +184,7 @@ if __name__ == '__main__':
             configuration.append(vehicle)
 
         # create board
-        board = Board(9, 9, configuration)
+        board = Board(6, 6, configuration)
         print board
 
         # run algorithme
