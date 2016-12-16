@@ -128,6 +128,8 @@ def BreadthFirst(configuration):
     while len(queue) > 0:
         current_configuration = queue.pop()
         counter += 1
+        if counter % 50000 == 0:
+            print counter, datetime.now()
         stringcars = ""
         winning_state = 0
 
