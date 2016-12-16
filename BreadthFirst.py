@@ -129,7 +129,8 @@ def BreadthFirst(configuration):
         current_configuration = queue.pop()
         counter += 1
         if counter % 50000 == 0:
-            print counter, datetime.now()
+            c = datetime.now()
+            print counter, "configuraties gezet om:", c
         stringcars = ""
         winning_state = 0
 
