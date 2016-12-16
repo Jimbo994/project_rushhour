@@ -157,8 +157,8 @@ def BreadthFirst(configuration):
                 # update steps_taken
                 steps_taken += 1
             b = datetime.now()
-            print "eindtijd:", b
-            print "totale runtijd:", b - a    
+            print "Eindtijd:", b
+            print "Totale runtijd:", b - a    
             print "Totaal aantal gezette stappen:", steps_taken
             print "Totaal aantal bezochte configuraties:", counter
             return True
@@ -194,7 +194,7 @@ if __name__ == '__main__':
         board = Board(6, 6, configuration)
         print board
         a = datetime.now()
-        print "begintijd:", a
+        print "Begintijd:", a
 
         # run algorithme
         BreadthFirst(configuration)
