@@ -1,6 +1,7 @@
 import sys
 import copy
 from collections import deque
+from datetime import datetime
 
 class Vehicle(object):
     def __init__(self, id, x, y, orientation):
@@ -152,6 +153,9 @@ def BreadthFirst(configuration):
                     i += 1
                 # update steps_taken
                 steps_taken += 1
+            b = datetime.now()
+            print "eindtijd:", b
+            print "totale runtijd:", b - a    
             print "Totaal aantal gezette stappen:", steps_taken
             print "Totaal aantal bezochte configuraties:", counter
             return True
@@ -186,6 +190,8 @@ if __name__ == '__main__':
         # create board
         board = Board(6, 6, configuration)
         print board
+        a = datetime.now()
+        print "begintijd:", a
 
         # run algorithme
         BreadthFirst(configuration)
