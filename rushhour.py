@@ -69,10 +69,16 @@ class Board(object):
                     a += 1
                     if vehicle.x - a >= 0 and board[vehicle.y][vehicle.x - a] == '_':
                         n += 1
-                        new_configuration = copy.deepcopy(configuration)
+                        # copy configuration
+                        new_configuration = configuration[:]
+                        # find movable car
                         for copied_vehicle in new_configuration:
                             if copied_vehicle.id == vehicle.id:
-                                copied_vehicle.x -=  a
+                                # find
+                                index = new_configuration.index(vehicle)
+                                new_vehicle = copy.deepcopy(vehicle)
+                                new_vehicle.x -=  a
+                                new_configuration[index] = new_vehicle
                                 children.append(new_configuration)
 
                 n = 1
@@ -82,10 +88,16 @@ class Board(object):
                     a += 1
                     if vehicle.x + a + vehicle.length - 1 < self.width and board[vehicle.y][vehicle.x + a + vehicle.length - 1] == '_':
                         n += 1
-                        new_configuration = copy.deepcopy(configuration)
+                        # copy configuration
+                        new_configuration = configuration[:]
+                        # find movable car
                         for copied_vehicle in new_configuration:
                             if copied_vehicle.id == vehicle.id:
-                                copied_vehicle.x +=  a
+                                # find
+                                index = new_configuration.index(vehicle)
+                                new_vehicle = copy.deepcopy(vehicle)
+                                new_vehicle.x +=  a
+                                new_configuration[index] = new_vehicle
                                 children.append(new_configuration)
 
             # move vehicles vertically
@@ -97,10 +109,16 @@ class Board(object):
                     # check if vehicle can move up & change y coordinate
                     if vehicle.y - a  >= 0 and board[vehicle.y - a][vehicle.x] == '_':
                         n += 1
-                        new_configuration = copy.deepcopy(configuration)
+                        # copy configuration
+                        new_configuration = configuration[:]
+                        # find movable car
                         for copied_vehicle in new_configuration:
                             if copied_vehicle.id == vehicle.id:
-                                copied_vehicle.y -= a
+                                # find
+                                index = new_configuration.index(vehicle)
+                                new_vehicle = copy.deepcopy(vehicle)
+                                new_vehicle.y -=  a
+                                new_configuration[index] = new_vehicle
                                 children.append(new_configuration)
 
                 # check if vehicle can move down & change y coordinate
@@ -110,10 +128,16 @@ class Board(object):
                     a += 1
                     if vehicle.y + a + vehicle.length - 1 < self.height and board[vehicle.y + a + vehicle.length - 1][vehicle.x] == '_':
                         n += 1
-                        new_configuration = copy.deepcopy(configuration)
+                        # copy configuration
+                        new_configuration = configuration[:]
+                        # find movable car
                         for copied_vehicle in new_configuration:
                             if copied_vehicle.id == vehicle.id:
-                                copied_vehicle.y += a
+                                # find
+                                index = new_configuration.index(vehicle)
+                                new_vehicle = copy.deepcopy(vehicle)
+                                new_vehicle.y +=  a
+                                new_configuration[index] = new_vehicle
                                 children.append(new_configuration)
         return children
 
@@ -134,7 +158,7 @@ if __name__ == '__main__':
             configuration.append(vehicle)
 
         # create board
-        board = Board(6, 6, configuration)
+        board = Board(9, 9, configuration)
         print board
         begintime = datetime.now()
         print "Begintijd:", begintime
