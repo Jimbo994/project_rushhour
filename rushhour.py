@@ -1,6 +1,6 @@
 import sys
 import copy
-import breadthfirst
+import breadthfirstAlgorithm
 from datetime import datetime
 
 class Vehicle(object):
@@ -140,7 +140,7 @@ if __name__ == '__main__':
         print "begintijd:", begintime
 
         # run algorithme
-        steps_taken, counter = breadthfirst.BreadthFirst(board, configuration)
+        steps_taken, counter = breadthfirstAlgorithm.BreadthFirst(board, configuration)
 
         endtime = datetime.now()
         print "Eindtijd:", endtime
