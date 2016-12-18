@@ -3,12 +3,13 @@ from datetime import datetime
 
 # https://jeremykun.com/tag/breadth-first-search/
 def BreadthFirst(board, configuration):
-    #create archive & queue
+    # create archive, queue & counters
     archive = {}
     counter = 0
+    steps_taken = 0
     queue = deque([configuration])
 
-    # create string of starting configuration for archive
+    # create starting node in archive
     stringStartingConfiguration = board.get_string(configuration)
     archive[stringStartingConfiguration] = None
 
@@ -20,12 +21,12 @@ def BreadthFirst(board, configuration):
         if counter % 50000 == 0:
             print counter, "at:", datetime.now()
 
-        # create string of currently checked configuration
-        stringcars = board.get_string(current_configuration)
-        if 'x42H' in stringcars:
-            steps_taken = 0
-            parent = archive[stringcars]
+        # check win condition
+        stringCurrentConfiguration = board.get_string(current_configuration)
+        if 'x42H' in stringCurrentConfiguration:
+            parent = archive[stringCurrentConfiguration]
 
+            # create solution
             while archive[parent] != None:
                 child = parent
                 parent = archive[parent]
@@ -40,10 +41,9 @@ def BreadthFirst(board, configuration):
                 steps_taken += 1
             return steps_taken, counter
 
-        # get_moves yields list of list of objects
+        # get moves of current configuration
         for children in board.get_moves(current_configuration):
-            stringCurrentConfiguration = board.get_string(children)
-
-            if (stringCurrentConfiguration not in archive):
+            stringChildConfiguration = board.get_string(children)
+            if stringChildConfiguration not in archive:
                 queue.appendleft(children)
-                archive[stringCurrentConfiguration] = stringcars
+                archive[stringChildConfiguration] = stringCurrentConfiguration

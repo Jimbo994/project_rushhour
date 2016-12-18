@@ -16,7 +16,7 @@ class Board(object):
         self.height = height
         self.configuration = configuration
 
-    #visualisation
+    # visualisation
     def __str__(self):
         block = ''
         for line in self.get_board(configuration):
@@ -137,11 +137,12 @@ if __name__ == '__main__':
         board = Board(6, 6, configuration)
         print board
         begintime = datetime.now()
-        print "begintijd:", begintime
+        print "Begintijd:", begintime
 
         # run algorithme
         steps_taken, counter = breadthfirstAlgorithm.BreadthFirst(board, configuration)
 
+        # print results
         endtime = datetime.now()
         print "Eindtijd:", endtime
         print "Totale runtijd:", endtime - begintime
