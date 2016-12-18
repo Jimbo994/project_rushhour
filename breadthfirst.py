@@ -18,7 +18,7 @@ def BreadthFirst(board, configuration):
 
         # keep counter for long runs :D
         if counter % 50000 == 0:
-            print counter
+            print counter, "at:", datetime.now()
 
         # create string of currently checked configuration
         stringcars = board.get_string(current_configuration)
@@ -27,16 +27,15 @@ def BreadthFirst(board, configuration):
             parent = archive[stringcars]
 
             while archive[parent] != None:
-                i = 0
                 child = parent
                 parent = archive[parent]
-                for bla in child:
+
+                # check string for different position of cars
+                for i in range(len(child)):
                     if parent[i] != child[i] and str.isalpha(parent[i - 1]):
-                        print "from", child[i - 1] + child[i] + child[i + 1] + child[i + 2], "to", parent[i - 1] + parent[i] + parent[i + 1] + parent[i + 2]
+                        print "from", child[i - 1:i + 3], "to", parent[i - 1:i + 3]
                     elif parent[i] != child[i]:
-                        print "from", child[i - 2] + child[i - 1] + child[i] + child[i + 1], "to", parent[i - 2] + parent[i - 1] + parent[i] + parent[i + 1]
-                    # update the index
-                    i += 1
+                        print "from", child[i - 2:i + 2], "to", parent[i - 2:i + 2]
                 # update steps_taken
                 steps_taken += 1
             return steps_taken, counter

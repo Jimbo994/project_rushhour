@@ -136,14 +136,14 @@ if __name__ == '__main__':
         # create board
         board = Board(6, 6, configuration)
         print board
-        starttime = datetime.now()
-        print "begintijd:", starttime
+        a = datetime.now()
+        print "begintijd:", a
 
         # run algorithme
         steps_taken, counter = breadthfirst.BreadthFirst(board, configuration)
 
-        endtime = datetime.now()
-        print "Eindtijd:", endtime
-        print "Totale runtijd:", endtime - starttime
+        b = datetime.now()
+        print "Eindtijd:", b
+        print "Totale runtijd:", b - a
         print "Aantal stappen gezet:", steps_taken
         print "Aantal bezochte configuraties:", counter
