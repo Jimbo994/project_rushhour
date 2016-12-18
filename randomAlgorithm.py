@@ -1,8 +1,8 @@
 import sys
 import copy
-from collections import deque
 import random
 import numpy
+from collections import deque
 
 class Vehicle(object):
     def __init__(self, id, x, y, orientation):
@@ -127,16 +127,12 @@ def Random(configuration):
     for vehicles in configuration:
         stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation)
         stringStartingConfiguration += stringvehicle
-   
-    #print stringStartingConfiguration
-        
+           
     archive[stringStartingConfiguration] = None
-    #short_memory_archive[stringStartingConfiguration] = None
 
     while len(queue) > 0:
         if counter > 500:
             break
-        #print counter
         current_configuration = queue.pop()
         counter += 1
         stringcars = ""
@@ -144,7 +140,6 @@ def Random(configuration):
         
         if short_memory_archive.items > 1:
             short_memory_archive.pop
-            
 
         # create string of currently checked configuration
         for vehicles in current_configuration:
@@ -152,6 +147,7 @@ def Random(configuration):
             if stringvehicle == 'x105H':
                 winning_state = 1
             stringcars += stringvehicle
+            
         if winning_state == 1:
             steps_taken = 0
             parent = archive[stringcars]
@@ -172,8 +168,6 @@ def Random(configuration):
             print "Totaal aantal bezochte configuraties:", counter
             return counter
 
-        # get_moves yields list of list of objects
-        #randomvehiclearray = board.get_moves(current_configuration):
         a = 0
         b = 0
         while a != 1:
@@ -196,17 +190,7 @@ def Random(configuration):
                 a = 1
                 b = 0
             else:
-                #randomchoice = random.choice(children)
-                #short_memory_archive[stringCurrentConfiguration] = None
                 b += 1
-            
-                #print stringCurrentConfiguration
-        
-                    
-                
-                
-            
-            
 
 if __name__ == '__main__':
     # open problem on board
@@ -233,5 +217,4 @@ if __name__ == '__main__':
         for i in range(0, 1000):
             print "iteration: ", i
             results.append(Random(configuration))
-            print sorted(results)
-        
+            print sorted(results)      
