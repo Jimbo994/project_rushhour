@@ -71,10 +71,9 @@ class Board(object):
                         n += 1
                         # copy configuration
                         new_configuration = configuration[:]
-                        # find movable car
+                        # find movable car + add to list of new configs
                         for copied_vehicle in new_configuration:
                             if copied_vehicle.id == vehicle.id:
-                                # find
                                 index = new_configuration.index(vehicle)
                                 new_vehicle = copy.deepcopy(vehicle)
                                 new_vehicle.x -=  a
@@ -93,7 +92,6 @@ class Board(object):
                         # find movable car
                         for copied_vehicle in new_configuration:
                             if copied_vehicle.id == vehicle.id:
-                                # find
                                 index = new_configuration.index(vehicle)
                                 new_vehicle = copy.deepcopy(vehicle)
                                 new_vehicle.x +=  a
@@ -111,10 +109,9 @@ class Board(object):
                         n += 1
                         # copy configuration
                         new_configuration = configuration[:]
-                        # find movable car
+                        # find movable car + add to list of new configs
                         for copied_vehicle in new_configuration:
                             if copied_vehicle.id == vehicle.id:
-                                # find
                                 index = new_configuration.index(vehicle)
                                 new_vehicle = copy.deepcopy(vehicle)
                                 new_vehicle.y -=  a
@@ -130,10 +127,9 @@ class Board(object):
                         n += 1
                         # copy configuration
                         new_configuration = configuration[:]
-                        # find movable car
+                        # find movable car + add to list of new configs
                         for copied_vehicle in new_configuration:
                             if copied_vehicle.id == vehicle.id:
-                                # find
                                 index = new_configuration.index(vehicle)
                                 new_vehicle = copy.deepcopy(vehicle)
                                 new_vehicle.y +=  a
