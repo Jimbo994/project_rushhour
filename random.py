@@ -1,5 +1,4 @@
-import sys, copy
-import random
+import sys, copy, random
 from collections import deque
 
 class Vehicle(object):
