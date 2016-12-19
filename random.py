@@ -1,5 +1,4 @@
-import sys
-import copy
+import sys, copy
 import random
 from collections import deque
 
@@ -46,7 +45,7 @@ class Board(object):
                 for i in range(vehicle.length):
                     board[y+i][x] = id
         return board
-        
+
     def get_string(self, configuration):
         stringconfiguration = ""
         for vehicles in configuration:
@@ -56,7 +55,7 @@ class Board(object):
 
     def get_moves(self, configuration):
         board = self.get_board(configuration)
-    
+
         # create list for new configurations
         children = []
 
@@ -128,21 +127,17 @@ class Board(object):
                             new_configuration[index] = new_vehicle
                             children.append(new_configuration)
         return children
-        
-        
-
-# https://jeremykun.com/tag/breadth-first-search/
 
 def Random(configuration):
     #create archive & queue
     archive = {}
     short_memory_archive = {}
     counter = 0
+    steps_taken = 0
     queue = deque([configuration])
 
     # create string of starting configuration for archive
     stringStartingConfiguration = board.get_string(configuration)
-           
     archive[stringStartingConfiguration] = None
 
     while len(queue) > 0:
@@ -150,19 +145,20 @@ def Random(configuration):
             break
         current_configuration = queue.pop()
         counter += 1
-        
+
         if short_memory_archive.items > 2:
             short_memory_archive.pop
 
         # create string of currently checked configuration
-        stringcars = board.get_string(current_configuration)
-        if 'x42H' in stringcars:
-            steps_taken = 0
-            parent = archive[stringcars]
+        stringCurrentConfiguration = board.get_string(current_configuration)
+        if 'x42H' in stringCurrentConfiguration:
+            parent = archive[stringCurrentConfiguration]
+
+            # create solution
             while archive[parent] != None:
-                i = 0
                 child = parent
                 parent = archive[parent]
+
                  # check string for different position of cars
                 for i in range(len(child)):
                     if parent[i] != child[i] and str.isalpha(parent[i - 1]):
@@ -171,7 +167,6 @@ def Random(configuration):
                         print "from", child[i - 2:i + 2], "to", parent[i - 2:i + 2]
                 # update steps_taken
                 steps_taken += 1
-            #print "Totaal aantal gezette stappen:", steps_taken
             print "Totaal aantal bezochte configuraties:", counter
             return counter
 
@@ -183,8 +178,7 @@ def Random(configuration):
             children = []
             children = board.get_moves(current_configuration)
             randomchoice = random.choice(children)
-        
-            #randomvehiclearray = numpy.random.choice(children)
+
             stringCurrentConfiguration = board.get_string(randomchoice)
 
             if stringCurrentConfiguration not in short_memory_archive and stringCurrentConfiguration != stringStartingConfiguration:
@@ -215,12 +209,12 @@ if __name__ == '__main__':
         # create board
         board = Board(6,6, configuration)
         print board
-        
+
         results = []
         # run algorithme
-        for i in range(0, 1000):
-            print "iteration: ", i
+        for i in range(0, 100):
+            print "Current iteration: ", i
             result = (Random(configuration))
             if result != None:
                 results.append(result)
-                print sorted(results)      
+                print sorted(results)
