@@ -137,10 +137,11 @@ def DepthFirst(configuration):
     stack = deque([configuration])
 
     # create string of starting configuration for archive
-    stringStartingConfiguration = get_string(configuration)
+    stringStartingConfiguration = board.get_string(configuration)
     archive[stringStartingConfiguration] = None
 
     while len(stack) > 0:
+        
         current_configuration = stack.pop()
         counter += 1
 
@@ -150,7 +151,7 @@ def DepthFirst(configuration):
 
         # create string of currently checked configuration
         stringCurrentConfiguration = board.get_string(current_configuration)
-        if 'x42H' in stringCurrentConfiguration:
+        if 'x74H' in stringCurrentConfiguration:
             parent = archive[stringCurrentConfiguration]
 
             # create solution
@@ -166,18 +167,16 @@ def DepthFirst(configuration):
                         print "from", child[i - 2:i + 2], "to", parent[i - 2:i + 2]
                 # update steps_taken
                 steps_taken += 1
-            return steps_taken, counter
+            print "stappen",steps_taken, "configuraties", counter
+            return True
 
         # get_moves yields list of list of objects
         for children in board.get_moves(current_configuration):
-            stringCurrentConfiguration = ""
-            for cars in children:
-                stringvehicles = str(cars.id) + str(cars.x) + str(cars.y) + str(cars.orientation)
-                stringCurrentConfiguration += stringvehicles
+            stringChildConfiguration = board.get_string(children)
 
-            if (stringCurrentConfiguration not in archive):
+            if (stringChildConfiguration not in archive):
                 stack.append(children)
-                archive[stringCurrentConfiguration] = stringcars
+                archive[stringChildConfiguration] = stringCurrentConfiguration
 
     return False
 
@@ -198,16 +197,16 @@ if __name__ == '__main__':
             configuration.append(vehicle)
 
         # create board
-        board = Board(6, 6, configuration)
+        board = Board(9, 9, configuration)
         print board
         begintime = datetime.now()
         print "Begintijd:", begintime
 
         # run algorithme
-        steps_taken, counter = DepthFirst(configuration)
+        DepthFirst(configuration)
 
         endtime = datetime.now()
         print "Eindtijd:", endtime
         print "Totale runtijd:", endtime - begintime
-        print "Totaal aantal gezette stappen:", steps_taken
-        print "Totaal aantal bezochte configuraties:", counter
+        #print "Totaal aantal gezette stappen:", steps_taken
+        #print "Totaal aantal bezochte configuraties:", counter
