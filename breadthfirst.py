@@ -150,7 +150,7 @@ def BreadthFirst(board, configuration):
 
         # check win condition
         stringCurrentConfiguration = board.get_string(current_configuration)
-        if 'x42H' in stringCurrentConfiguration:
+        if 'x74H' in stringCurrentConfiguration:
             parent = archive[stringCurrentConfiguration]
 
             # create solution
@@ -193,7 +193,7 @@ if __name__ == '__main__':
             configuration.append(vehicle)
 
         # create board
-        board = Board(6, 6, configuration)
+        board = Board(9, 9, configuration)
         print board
         begintime = datetime.now()
         print "Begintijd:", begintime

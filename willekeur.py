@@ -1,6 +1,8 @@
 import sys, copy
 import random
 from collections import deque
+import os.path
+save_path = "C:\Users\Jim\Documents\GitHub\project_rushhour\oplossing_random"
 
 class Vehicle(object):
     def __init__(self, id, x, y, orientation):
@@ -141,7 +143,7 @@ def Willekeur(configuration):
     archive[stringStartingConfiguration] = None
 
     while len(queue) > 0:
-        if counter > 2500:
+        if counter > 650:
             break
         current_configuration = queue.pop()
         counter += 1
@@ -151,15 +153,25 @@ def Willekeur(configuration):
 
         # create string of currently checked configuration
         stringCurrentConfiguration = board.get_string(current_configuration)
-        if 'x74H' in stringCurrentConfiguration:
+        if 'x105H' in stringCurrentConfiguration:
             parent = archive[stringCurrentConfiguration]
-
+            
+            #als we netjes in een mapje solutions willen schrijven, zie helemaal bovenin voor definieren save_path
+            filename = os.path.join(save_path, str(counter) + ".txt")
+            f = open(filename, "w")
+            f.write("start configuratie: " + stringStartingConfiguration + "\n")
+           
+            # als we direct in de map willen schrijven
+            #f = open("%s.txt" %counter, "w")
+            
             # create solution
             while archive[parent] != None:
                 child = parent
                 parent = archive[parent]
 
-                # print parent
+                
+                f.write(parent + "\n")
+                
 
                  # check string for different position of cars
                 for i in range(len(child)):
@@ -170,6 +182,7 @@ def Willekeur(configuration):
                 #update steps_taken
                 steps_taken += 1
             print "Totaal aantal bezochte configuraties:", counter
+            f.close()
             return counter
 
         a = 0
@@ -208,12 +221,12 @@ if __name__ == '__main__':
             configuration.append(vehicle)
 
         # create board
-        board = Board(9, 9, configuration)
+        board = Board(12, 12, configuration)
         print board
 
         results = []
         # run algorithme
-        for i in range(0, 10000):
+        for i in range(0, 5000):
             print "Current iteration: ", i
             result = (Willekeur(configuration))
             if result != None:
