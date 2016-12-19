@@ -1,5 +1,5 @@
-import sys
-import copy
+import sys, copy
+from collections import deque
 from datetime import datetime
 
 class Vehicle(object):
@@ -46,122 +46,127 @@ class Board(object):
                     board[y+i][x] = id
         return board
 
+    def get_string(self, configuration):
+        stringconfiguration = ""
+        for vehicles in configuration:
+            stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation)
+            stringconfiguration += stringvehicle
+        return stringconfiguration
+
     def get_moves(self, configuration):
         board = self.get_board(configuration)
-    
+
         # create list for new configurations
         children = []
-            
+
         for vehicle in configuration:
             if vehicle.orientation == 'H':
-                n = 1
-                a= 0
-                while a < n:
-                    # check if vehicle can move left & change x coordinate
-                    a += 1
-                    if vehicle.x - a >= 0 and board[vehicle.y][vehicle.x-a] == '_':
-                        n += 1
-                        new_configuration = copy.deepcopy(configuration)
-                        for copied_vehicle in new_configuration:
-                            if copied_vehicle.id == vehicle.id:
-                                copied_vehicle.x -=  a
-                                children.append(new_configuration)
-                    
-                n = 1
-                a = 0
-                # check if vehicle can move right & change x coordinate
-                while a < n:
-                    a += 1
-                    if vehicle.x+a + vehicle.length-1 < self.width and board[vehicle.y][vehicle.x+a + vehicle.length-1] == '_':
-                        n += 1
-                        new_configuration = copy.deepcopy(configuration)
-                        for copied_vehicle in new_configuration:
-                            if copied_vehicle.id == vehicle.id:
-                                copied_vehicle.x +=  a
-                                children.append(new_configuration)
+                a = 1
+                # check for left
+                if vehicle.x - a >= 0 and board[vehicle.y][vehicle.x - a] == '_':
+                    while vehicle.x - a >= 0 and board[vehicle.y][vehicle.x - a] == '_':
+                        maximum = a
+                        a += 1
+                    # copy configuration
+                    new_configuration = configuration[:]
+                    for copied_vehicle in new_configuration:
+                        if copied_vehicle.id == vehicle.id:
+                            index = new_configuration.index(vehicle)
+                            new_vehicle = copy.deepcopy(vehicle)
+                            new_vehicle.x -=  maximum
+                            new_configuration[index] = new_vehicle
+                            children.append(new_configuration)
+
+                # check for right
+                b = 1
+                if vehicle.x + b + vehicle.length - 1 < self.width and board[vehicle.y][vehicle.x + b + vehicle.length - 1] == '_':
+                    while vehicle.x + b + vehicle.length - 1 < self.width and board[vehicle.y][vehicle.x + b + vehicle.length - 1] == '_':
+                        maximum = b
+                        b += 1
+                    # copy configuration
+                    new_configuration = configuration[:]
+                    # find movable car
+                    for copied_vehicle in new_configuration:
+                        if copied_vehicle.id == vehicle.id:
+                            index = new_configuration.index(vehicle)
+                            new_vehicle = copy.deepcopy(vehicle)
+                            new_vehicle.x +=  maximum
+                            new_configuration[index] = new_vehicle
+                            children.append(new_configuration)
 
             # move vehicles vertically
             if vehicle.orientation == 'V':
-                n = 1
-                a = 0
-                while a < n:
-                    a += 1
-                    # check if vehicle can move up & change y coordinate
-                    if vehicle.y -a  >= 0 and board[vehicle.y - a][vehicle.x] == '_':
-                        n +=1
-                        new_configuration = copy.deepcopy(configuration)
-                        for copied_vehicle in new_configuration:
-                            if copied_vehicle.id == vehicle.id:
-                                copied_vehicle.y -= a
-                                children.append(new_configuration)
+                c = 1
+                if vehicle.y - c  >= 0 and board[vehicle.y - c][vehicle.x] == '_':
+                    while vehicle.y - c >= 0 and board[vehicle.y - c][vehicle.x] == '_':
+                        maximum = c
+                        c += 1
+                    # copy configuration
+                    new_configuration = configuration[:]
+                    for copied_vehicle in new_configuration:
+                        if copied_vehicle.id == vehicle.id:
+                            index = new_configuration.index(vehicle)
+                            new_vehicle = copy.deepcopy(vehicle)
+                            new_vehicle.y -= maximum
+                            new_configuration[index] = new_vehicle
+                            children.append(new_configuration)
 
                 # check if vehicle can move down & change y coordinate
-                n = 1
-                a = 0
-                while a < n:
-                    a += 1
-                    if vehicle.y + a + vehicle.length-1 < self.height and board[vehicle.y + a + vehicle.length-1][vehicle.x] == '_':
-                        n += 1
-                        new_configuration = copy.deepcopy(configuration)
-                        for copied_vehicle in new_configuration:
-                            if copied_vehicle.id == vehicle.id:
-                                copied_vehicle.y += a 
-                                children.append(new_configuration)
+                d = 1
+                if vehicle.y + d + vehicle.length - 1 < self.height and board[vehicle.y + d + vehicle.length - 1][vehicle.x] == '_':
+                    while vehicle.y + d + vehicle.length - 1 < self.height and board[vehicle.y + d + vehicle.length - 1][vehicle.x] == '_':
+                        maximum = d
+                        d += 1
+                    # copy configuration
+                    new_configuration = configuration[:]
+                    for copied_vehicle in new_configuration:
+                        if copied_vehicle.id == vehicle.id:
+                            index = new_configuration.index(vehicle)
+                            new_vehicle = copy.deepcopy(vehicle)
+                            new_vehicle.y += maximum
+                            new_configuration[index] = new_vehicle
+                            children.append(new_configuration)
         return children
 
 # https://jeremykun.com/tag/breadth-first-search/
-
 def DepthFirst(configuration):
     #create archive & queue
     archive = {}
     counter = 0
-    stack = []
-    stack.append(configuration)
-    stringStartingConfiguration = ""
+    steps_taken = 0
+    stack = deque([configuration])
 
     # create string of starting configuration for archive
-    for vehicles in configuration:
-        stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation)
-        stringStartingConfiguration += stringvehicle
+    stringStartingConfiguration = get_string(configuration)
     archive[stringStartingConfiguration] = None
 
     while len(stack) > 0:
         current_configuration = stack.pop()
         counter += 1
+
+        # keep counter for long runs :D
         if counter % 50000 == 0:
-            c = datetime.now()
-            print counter, "configuraties gezet om:", c
-        stringcars = ""
-        winning_state = 0
+            print counter, "at:", datetime.now()
 
         # create string of currently checked configuration
-        for vehicles in current_configuration:
-            stringvehicle = str(vehicles.id) + str(vehicles.x) + str(vehicles.y) + str(vehicles.orientation)
-            if stringvehicle == 'x42H':
-                winning_state = 1
-            stringcars += stringvehicle
-        if winning_state == 1:
-            steps_taken = 0
-            parent = archive[stringcars]
+        stringCurrentConfiguration = board.get_string(current_configuration)
+        if 'x42H' in stringCurrentConfiguration:
+            parent = archive[stringCurrentConfiguration]
+
+            # create solution
             while archive[parent] != None:
-                i = 0
                 child = parent
                 parent = archive[parent]
-                for bla in child:
-                    if parent[i] != child[i] and str.isalpha(parent[i-1]):
-                        print "from", child[i-1]+child[i]+child[i+1]+child[i+2], "to", parent[i-1]+parent[i]+parent[i+1]+parent[i+2]
+
+                # check string for different position of cars
+                for i in range(len(child)):
+                    if parent[i] != child[i] and str.isalpha(parent[i - 1]):
+                        print "from", child[i - 1:i + 3], "to", parent[i - 1:i + 3]
                     elif parent[i] != child[i]:
-                        print "from", child[i-2]+child[i-1]+child[i]+child[i+1], "to", parent[i-2]+parent[i-1]+parent[i]+parent[i+1]
-                    # update the index
-                    i += 1
+                        print "from", child[i - 2:i + 2], "to", parent[i - 2:i + 2]
                 # update steps_taken
                 steps_taken += 1
-            b = datetime.now()
-            print "Eindtijd:", b
-            print "Totale runtijd:", b - a    
-            print "Totaal aantal gezette stappen:", steps_taken
-            print "Totaal aantal bezochte configuraties:", counter
-            return True
+            return steps_taken, counter
 
         # get_moves yields list of list of objects
         for children in board.get_moves(current_configuration):
@@ -173,7 +178,7 @@ def DepthFirst(configuration):
             if (stringCurrentConfiguration not in archive):
                 stack.append(children)
                 archive[stringCurrentConfiguration] = stringcars
-            
+
     return False
 
 if __name__ == '__main__':
@@ -195,9 +200,14 @@ if __name__ == '__main__':
         # create board
         board = Board(6, 6, configuration)
         print board
-        a = datetime.now()
-        print "Begintijd:", a
+        begintime = datetime.now()
+        print "Begintijd:", begintime
 
         # run algorithme
-        DepthFirst(configuration)
+        steps_taken, counter = DepthFirst(configuration)
 
+        endtime = datetime.now()
+        print "Eindtijd:", endtime
+        print "Totale runtijd:", endtime - begintime
+        print "Totaal aantal gezette stappen:", steps_taken
+        print "Totaal aantal bezochte configuraties:", counter

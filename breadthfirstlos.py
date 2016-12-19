@@ -23,7 +23,7 @@ def BreadthFirst(board, configuration):
 
         # check win condition
         stringCurrentConfiguration = board.get_string(current_configuration)
-        if 'x74H' in stringCurrentConfiguration:
+        if 'x42H' in stringCurrentConfiguration:
             parent = archive[stringCurrentConfiguration]
 
             # create solution

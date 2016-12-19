@@ -1,7 +1,6 @@
-import sys
-import copy
-import breadthfirstAlgorithm
+import sys, copy, breadthfirst
 from datetime import datetime
+from collections import deque
 
 class Vehicle(object):
     def __init__(self, id, x, y, orientation):
@@ -129,6 +128,54 @@ class Board(object):
                             children.append(new_configuration)
         return children
 
+# https://jeremykun.com/tag/breadth-first-search/
+def BreadthFirst(board, configuration):
+    # create archive, queue & counters
+    archive = {}
+    counter = 0
+    steps_taken = 0
+    queue = deque([configuration])
+
+    # create starting node in archive
+    stringStartingConfiguration = board.get_string(configuration)
+    archive[stringStartingConfiguration] = None
+
+    while len(queue) > 0:
+        current_configuration = queue.pop()
+        counter += 1
+
+        # keep counter for long runs :D
+        if counter % 50000 == 0:
+            print counter, "at:", datetime.now()
+
+        # check win condition
+        stringCurrentConfiguration = board.get_string(current_configuration)
+        if 'x42H' in stringCurrentConfiguration:
+            parent = archive[stringCurrentConfiguration]
+
+            # create solution
+            while archive[parent] != None:
+                child = parent
+                parent = archive[parent]
+
+                # check string for different position of cars
+                for i in range(len(child)):
+                    if parent[i] != child[i] and str.isalpha(parent[i - 1]):
+                        print "from", child[i - 1:i + 3], "to", parent[i - 1:i + 3]
+                    elif parent[i] != child[i]:
+                        print "from", child[i - 2:i + 2], "to", parent[i - 2:i + 2]
+                # update steps_taken
+                steps_taken += 1
+            return steps_taken, counter
+
+        # get moves of current configuration
+        for children in board.get_moves(current_configuration):
+            stringChildConfiguration = board.get_string(children)
+            if stringChildConfiguration not in archive:
+                queue.appendleft(children)
+                archive[stringChildConfiguration] = stringCurrentConfiguration
+
+
 if __name__ == '__main__':
     # open problem on board
     filename = sys.argv[1]
@@ -146,13 +193,13 @@ if __name__ == '__main__':
             configuration.append(vehicle)
 
         # create board
-        board = Board(9, 9, configuration)
+        board = Board(6, 6, configuration)
         print board
         begintime = datetime.now()
         print "Begintijd:", begintime
 
         # run algorithme
-        steps_taken, counter = breadthfirstAlgorithm.BreadthFirst(board, configuration)
+        steps_taken, counter = breadthfirst.BreadthFirst(board, configuration)
 
         # print results
         endtime = datetime.now()
