@@ -1,4 +1,5 @@
-import sys, copy, random
+import sys, copy
+import random
 from collections import deque
 
 class Vehicle(object):
@@ -127,7 +128,7 @@ class Board(object):
                             children.append(new_configuration)
         return children
 
-def Random(configuration):
+def Willekeur(configuration):
     #create archive & queue
     archive = {}
     short_memory_archive = {}
@@ -140,7 +141,7 @@ def Random(configuration):
     archive[stringStartingConfiguration] = None
 
     while len(queue) > 0:
-        if counter > 800:
+        if counter > 2500:
             break
         current_configuration = queue.pop()
         counter += 1
@@ -150,7 +151,7 @@ def Random(configuration):
 
         # create string of currently checked configuration
         stringCurrentConfiguration = board.get_string(current_configuration)
-        if 'x42H' in stringCurrentConfiguration:
+        if 'x74H' in stringCurrentConfiguration:
             parent = archive[stringCurrentConfiguration]
 
             # create solution
@@ -158,13 +159,15 @@ def Random(configuration):
                 child = parent
                 parent = archive[parent]
 
+                # print parent
+
                  # check string for different position of cars
                 for i in range(len(child)):
                     if parent[i] != child[i] and str.isalpha(parent[i - 1]):
                         print "from", child[i - 1:i + 3], "to", parent[i - 1:i + 3]
                     elif parent[i] != child[i]:
                         print "from", child[i - 2:i + 2], "to", parent[i - 2:i + 2]
-                # update steps_taken
+                #update steps_taken
                 steps_taken += 1
             print "Totaal aantal bezochte configuraties:", counter
             return counter
@@ -175,12 +178,12 @@ def Random(configuration):
             if b > 5:
                 break
             children = board.get_moves(current_configuration)
-            randomchoice = random.choice(children)
+            willekeurigkind = random.choice(children)
 
-            stringRandomChild = board.get_string(randomchoice)
+            stringRandomChild = board.get_string(willekeurigkind)
 
             if stringRandomChild not in short_memory_archive and stringRandomChild != stringStartingConfiguration:
-                queue.appendleft(randomchoice)
+                queue.appendleft(willekeurigkind)
                 archive[stringRandomChild] = stringCurrentConfiguration
                 short_memory_archive[stringCurrentConfiguration] = None
                 a = 1
@@ -205,14 +208,15 @@ if __name__ == '__main__':
             configuration.append(vehicle)
 
         # create board
-        board = Board(6,6, configuration)
+        board = Board(9, 9, configuration)
         print board
 
         results = []
         # run algorithme
-        for i in range(0, 100):
+        for i in range(0, 10000):
             print "Current iteration: ", i
-            result = (Random(configuration))
+            result = (Willekeur(configuration))
             if result != None:
                 results.append(result)
                 print sorted(results)
+    print sorted(results)
