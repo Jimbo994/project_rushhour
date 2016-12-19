@@ -1,4 +1,4 @@
-import sys, copy, breadthfirst
+import sys, copy
 from datetime import datetime
 from collections import deque
 
@@ -199,7 +199,7 @@ if __name__ == '__main__':
         print "Begintijd:", begintime
 
         # run algorithme
-        steps_taken, counter = breadthfirst.BreadthFirst(board, configuration)
+        steps_taken, counter = BreadthFirst(board, configuration)
 
         # print results
         endtime = datetime.now()
