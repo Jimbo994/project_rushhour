@@ -140,7 +140,7 @@ def Random(configuration):
     archive[stringStartingConfiguration] = None
 
     while len(queue) > 0:
-        if counter > 51:
+        if counter > 800:
             break
         current_configuration = queue.pop()
         counter += 1
@@ -174,15 +174,14 @@ def Random(configuration):
         while a != 1:
             if b > 5:
                 break
-            children = []
             children = board.get_moves(current_configuration)
             randomchoice = random.choice(children)
 
-            stringCurrentConfiguration = board.get_string(randomchoice)
+            stringRandomChild = board.get_string(randomchoice)
 
-            if stringCurrentConfiguration not in short_memory_archive and stringCurrentConfiguration != stringStartingConfiguration:
+            if stringRandomChild not in short_memory_archive and stringRandomChild != stringStartingConfiguration:
                 queue.appendleft(randomchoice)
-                archive[stringCurrentConfiguration] = stringcars
+                archive[stringRandomChild] = stringCurrentConfiguration
                 short_memory_archive[stringCurrentConfiguration] = None
                 a = 1
                 b = 0
