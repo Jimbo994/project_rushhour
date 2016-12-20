@@ -132,27 +132,31 @@ class Board(object):
 def DepthFirst(configuration):
     #create archive & queue
     archive = {}
+    depth = {}
     counter = 0
-    depth = 0
+    max_depth = 50
     steps_taken = 0
     stack = deque([configuration])
-
+    
     # create string of starting configuration for archive
     stringStartingConfiguration = board.get_string(configuration)
     archive[stringStartingConfiguration] = None
+    depth[stringStartingConfiguration] = 0
 
     while len(stack) > 0:
         
-        depth += 1
         current_configuration = stack.pop()
+        stringCurrentConfiguration = board.get_string(current_configuration)
+        current_depth = depth[stringCurrentConfiguration]
         counter += 1
+        
 
         # keep counter for long runs :D
         if counter % 50000 == 0:
             print counter, "at:", datetime.now()
 
         # create string of currently checked configuration
-        stringCurrentConfiguration = board.get_string(current_configuration)
+        
         if 'x42H' in stringCurrentConfiguration:
             parent = archive[stringCurrentConfiguration]
 
@@ -173,13 +177,17 @@ def DepthFirst(configuration):
             return True
 
         # get_moves yields list of list of objects
-        for children in board.get_moves(current_configuration):
-            stringChildConfiguration = board.get_string(children)
+        if current_depth > max_depth:
+            continue
+        else:
+            for children in board.get_moves(current_configuration):
+                stringChildConfiguration = board.get_string(children)
 
-            if (stringChildConfiguration not in archive):
-                stack.append(children)
-                archive[stringChildConfiguration] = stringCurrentConfiguration, i
-
+                if (stringChildConfiguration not in archive):
+                    stack.append(children)
+                    archive[stringChildConfiguration] = stringCurrentConfiguration
+                    depth[stringChildConfiguration] = current_depth + 1
+    print "apparently no solution"
     return False
 
 if __name__ == '__main__':
