@@ -132,22 +132,28 @@ class Board(object):
 def DepthFirst(configuration):
     #create archive & queue
     archive = {}
-    depth = {}
     counter = 0
-    max_depth = 50
+    # deze uncommenten als we willen werken met aparte dict voor dipth en aparte archive, en archive weer normaal maken
+    #depth = {}
+    
+    max_depth = 18
     steps_taken = 0
     stack = deque([configuration])
     
     # create string of starting configuration for archive
     stringStartingConfiguration = board.get_string(configuration)
-    archive[stringStartingConfiguration] = None
-    depth[stringStartingConfiguration] = 0
+    archive[stringStartingConfiguration] = None, 0
+    #depth[stringStartingConfiguration] = 0
 
     while len(stack) > 0:
         
         current_configuration = stack.pop()
         stringCurrentConfiguration = board.get_string(current_configuration)
-        current_depth = depth[stringCurrentConfiguration]
+        current_depth = archive[stringCurrentConfiguration][1]
+        # current_depth = depth[stringCurrentConfiguration]
+        
+        #check om te zien of de diepte limiet werkt.
+        #print current_depth
         counter += 1
         
 
@@ -158,12 +164,12 @@ def DepthFirst(configuration):
         # create string of currently checked configuration
         
         if 'x42H' in stringCurrentConfiguration:
-            parent = archive[stringCurrentConfiguration]
+            parent = archive[stringCurrentConfiguration][0]
 
             # create solution
             while archive[parent] != None:
                 child = parent
-                parent = archive[parent]
+                parent = archive[parent][0]
 
                 # check string for different position of cars
                 for i in range(len(child)):
@@ -183,10 +189,11 @@ def DepthFirst(configuration):
             for children in board.get_moves(current_configuration):
                 stringChildConfiguration = board.get_string(children)
 
-                if (stringChildConfiguration not in archive):
+                if (stringChildConfiguration not in archive[0]):
                     stack.append(children)
-                    archive[stringChildConfiguration] = stringCurrentConfiguration
-                    depth[stringChildConfiguration] = current_depth + 1
+                    #depth[stringChildConfiguration] = current_depth + 1
+                    archive[stringChildConfiguration] = stringCurrentConfiguration, current_depth + 1
+    print counter
     print "apparently no solution"
     return False
 
