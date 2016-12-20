@@ -142,6 +142,7 @@ def DepthFirst(configuration):
     
     # create string of starting configuration for archive
     stringStartingConfiguration = board.get_string(configuration)
+    # nu ook diepte meegeven
     archive[stringStartingConfiguration] = None, 0
     #depth[stringStartingConfiguration] = 0
 
@@ -149,6 +150,7 @@ def DepthFirst(configuration):
         
         current_configuration = stack.pop()
         stringCurrentConfiguration = board.get_string(current_configuration)
+        # de diepte waar we ons nu bevinden.
         current_depth = archive[stringCurrentConfiguration][1]
         # current_depth = depth[stringCurrentConfiguration]
         
@@ -182,16 +184,18 @@ def DepthFirst(configuration):
             print "stappen",steps_taken, "configuraties", counter
             return True
 
-        # get_moves yields list of list of objects
+       # check if we have not exceeded depth yet.
         if current_depth > max_depth:
             continue
         else:
+             # get_moves yields list of list of objects
             for children in board.get_moves(current_configuration):
                 stringChildConfiguration = board.get_string(children)
 
-                if (stringChildConfiguration not in archive[0]):
+                if (stringChildConfiguration not in archive):
                     stack.append(children)
                     #depth[stringChildConfiguration] = current_depth + 1
+                    # Link child to parent and increase depth with 1
                     archive[stringChildConfiguration] = stringCurrentConfiguration, current_depth + 1
     print counter
     print "apparently no solution"
