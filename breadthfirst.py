@@ -129,7 +129,7 @@ class Board(object):
         return children
 
 # https://jeremykun.com/tag/breadth-first-search/
-def BreadthFirst(board, configuration):
+def BreadthFirst(configuration):
     # create archive, queue & counters
     archive = {}
     counter = 0
@@ -175,7 +175,6 @@ def BreadthFirst(board, configuration):
                 queue.appendleft(children)
                 archive[stringChildConfiguration] = stringCurrentConfiguration
 
-
 if __name__ == '__main__':
     # open problem on board
     filename = sys.argv[1]
@@ -199,7 +198,7 @@ if __name__ == '__main__':
         print "Begintijd:", begintime
 
         # run algorithme
-        steps_taken, counter = BreadthFirst(board, configuration)
+        steps_taken, counter = BreadthFirst(configuration)
 
         # print results
         endtime = datetime.now()
