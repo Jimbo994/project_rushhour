@@ -133,6 +133,7 @@ def DepthFirst(configuration):
     #create archive & queue
     archive = {}
     counter = 0
+    depth = 0
     steps_taken = 0
     stack = deque([configuration])
 
@@ -142,6 +143,7 @@ def DepthFirst(configuration):
 
     while len(stack) > 0:
         
+        depth += 1
         current_configuration = stack.pop()
         counter += 1
 
@@ -151,7 +153,7 @@ def DepthFirst(configuration):
 
         # create string of currently checked configuration
         stringCurrentConfiguration = board.get_string(current_configuration)
-        if 'x74H' in stringCurrentConfiguration:
+        if 'x42H' in stringCurrentConfiguration:
             parent = archive[stringCurrentConfiguration]
 
             # create solution
@@ -176,7 +178,7 @@ def DepthFirst(configuration):
 
             if (stringChildConfiguration not in archive):
                 stack.append(children)
-                archive[stringChildConfiguration] = stringCurrentConfiguration
+                archive[stringChildConfiguration] = stringCurrentConfiguration, i
 
     return False
 
@@ -197,7 +199,7 @@ if __name__ == '__main__':
             configuration.append(vehicle)
 
         # create board
-        board = Board(9, 9, configuration)
+        board = Board(6, 6, configuration)
         print board
         begintime = datetime.now()
         print "Begintijd:", begintime

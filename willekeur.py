@@ -143,7 +143,7 @@ def Willekeur(configuration):
     archive[stringStartingConfiguration] = None
 
     while len(queue) > 0:
-        if counter > 650:
+        if counter > 500:
             break
         current_configuration = queue.pop()
         counter += 1
@@ -166,19 +166,19 @@ def Willekeur(configuration):
             
             # create solution
             while archive[parent] != None:
-                child = parent
+                #child = parent
                 parent = archive[parent]
 
                 
                 f.write(parent + "\n")
-                
+            
 
-                 # check string for different position of cars
-                for i in range(len(child)):
-                    if parent[i] != child[i] and str.isalpha(parent[i - 1]):
-                        print "from", child[i - 1:i + 3], "to", parent[i - 1:i + 3]
-                    elif parent[i] != child[i]:
-                        print "from", child[i - 2:i + 2], "to", parent[i - 2:i + 2]
+#                 # check string for different position of cars
+#                for i in range(len(child)):
+#                    if parent[i] != child[i] and str.isalpha(parent[i - 1]):
+#                        print "from", child[i - 1:i + 3], "to", parent[i - 1:i + 3]
+#                    elif parent[i] != child[i]:
+#                        print "from", child[i - 2:i + 2], "to", parent[i - 2:i + 2]
                 #update steps_taken
                 steps_taken += 1
             print "Totaal aantal bezochte configuraties:", counter
@@ -226,7 +226,7 @@ if __name__ == '__main__':
 
         results = []
         # run algorithme
-        for i in range(0, 5000):
+        for i in range(0,20000):
             print "Current iteration: ", i
             result = (Willekeur(configuration))
             if result != None:
