@@ -133,38 +133,32 @@ def DepthFirst(configuration):
     #create archive & queue
     archive = {}
     counter = 0
-    # deze uncommenten als we willen werken met aparte dict voor dipth en aparte archive, en archive weer normaal maken
-    #depth = {}
-    
-    max_depth = 18
     steps_taken = 0
+    max_depth = 16
     stack = deque([configuration])
-    
+
     # create string of starting configuration for archive
     stringStartingConfiguration = board.get_string(configuration)
-    # nu ook diepte meegeven
     archive[stringStartingConfiguration] = None, 0
-    #depth[stringStartingConfiguration] = 0
 
     while len(stack) > 0:
-        
         current_configuration = stack.pop()
-        stringCurrentConfiguration = board.get_string(current_configuration)
-        # de diepte waar we ons nu bevinden.
-        current_depth = archive[stringCurrentConfiguration][1]
-        # current_depth = depth[stringCurrentConfiguration]
-        
-        #check om te zien of de diepte limiet werkt.
-        #print current_depth
         counter += 1
-        
+        #print counter
 
         # keep counter for long runs :D
         if counter % 50000 == 0:
             print counter, "at:", datetime.now()
 
+        stringCurrentConfiguration = board.get_string(current_configuration)
+        current_depth = archive[stringCurrentConfiguration][1]
+
+        for k, v in archive.items():
+            if v[1] > current_depth:
+                del archive[k]
+        # print current_depth
+
         # create string of currently checked configuration
-        
         if 'x42H' in stringCurrentConfiguration:
             parent = archive[stringCurrentConfiguration][0]
 
@@ -181,25 +175,19 @@ def DepthFirst(configuration):
                         print "from", child[i - 2:i + 2], "to", parent[i - 2:i + 2]
                 # update steps_taken
                 steps_taken += 1
-            print "stappen",steps_taken, "configuraties", counter
-            return True
+            return steps_taken, counter
 
        # check if we have not exceeded depth yet.
         if current_depth > max_depth:
             continue
         else:
-             # get_moves yields list of list of objects
+            # get moves of current configuration
             for children in board.get_moves(current_configuration):
                 stringChildConfiguration = board.get_string(children)
 
-                if (stringChildConfiguration not in archive):
+                if stringChildConfiguration not in archive:
                     stack.append(children)
-                    #depth[stringChildConfiguration] = current_depth + 1
-                    # Link child to parent and increase depth with 1
                     archive[stringChildConfiguration] = stringCurrentConfiguration, current_depth + 1
-    print counter
-    print "apparently no solution"
-    return False
 
 if __name__ == '__main__':
     # open problem on board
@@ -224,10 +212,10 @@ if __name__ == '__main__':
         print "Begintijd:", begintime
 
         # run algorithme
-        DepthFirst(configuration)
+        steps_taken, counter = DepthFirst(configuration)
 
         endtime = datetime.now()
         print "Eindtijd:", endtime
         print "Totale runtijd:", endtime - begintime
-        #print "Totaal aantal gezette stappen:", steps_taken
-        #print "Totaal aantal bezochte configuraties:", counter
+        print "Totaal aantal gezette stappen:", steps_taken
+        print "Totaal aantal bezochte configuraties:", counter
