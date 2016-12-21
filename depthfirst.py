@@ -85,7 +85,6 @@ class Board(object):
                         b += 1
                     # copy configuration
                     new_configuration = configuration[:]
-                    # find movable car
                     for copied_vehicle in new_configuration:
                         if copied_vehicle.id == vehicle.id:
                             index = new_configuration.index(vehicle)
@@ -134,7 +133,7 @@ def DepthFirst(configuration):
     archive = {}
     counter = 0
     steps_taken = 0
-    max_depth = 16
+    max_depth = 20
     stack = deque([configuration])
 
     # create string of starting configuration for archive
@@ -144,17 +143,16 @@ def DepthFirst(configuration):
     while len(stack) > 0:
         current_configuration = stack.pop()
         counter += 1
-        #print counter
 
         # keep counter for long runs :D
         if counter % 50000 == 0:
             print counter, "at:", datetime.now()
 
         stringCurrentConfiguration = board.get_string(current_configuration)
-        current_depth = archive[stringCurrentConfiguration][1]
+        depthCurrentConfiguration = archive[stringCurrentConfiguration][1]
 
         for k, v in archive.items():
-            if v[1] > current_depth:
+            if v[1] > depthCurrentConfiguration:
                 del archive[k]
         # print current_depth
 
@@ -163,7 +161,7 @@ def DepthFirst(configuration):
             parent = archive[stringCurrentConfiguration][0]
 
             # create solution
-            while archive[parent] != None:
+            while archive[parent][0] != None:
                 child = parent
                 parent = archive[parent][0]
 
@@ -178,7 +176,7 @@ def DepthFirst(configuration):
             return steps_taken, counter
 
        # check if we have not exceeded depth yet.
-        if current_depth > max_depth:
+        if depthCurrentConfiguration > max_depth:
             continue
         else:
             # get moves of current configuration
@@ -187,7 +185,7 @@ def DepthFirst(configuration):
 
                 if stringChildConfiguration not in archive:
                     stack.append(children)
-                    archive[stringChildConfiguration] = stringCurrentConfiguration, current_depth + 1
+                    archive[stringChildConfiguration] = stringCurrentConfiguration, depthCurrentConfiguration + 1
 
 if __name__ == '__main__':
     # open problem on board
@@ -214,6 +212,7 @@ if __name__ == '__main__':
         # run algorithme
         steps_taken, counter = DepthFirst(configuration)
 
+        #print results
         endtime = datetime.now()
         print "Eindtijd:", endtime
         print "Totale runtijd:", endtime - begintime
