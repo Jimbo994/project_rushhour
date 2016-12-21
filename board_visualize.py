@@ -1,5 +1,5 @@
-from BreadthFirst import Vehicle
-from BreadthFirst import Board
+from breadthfirst import Vehicle
+from breadthfirst import Board
 
 from time import sleep
 
