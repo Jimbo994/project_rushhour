@@ -10,12 +10,12 @@ def BreadthFirst(board, configuration):
     queue = deque([configuration])
 
     # create wincondition
-    if board.width == 6:
+    if board.height == 6:
         wincondition = "x42H"
-    elif board.width == 9:
-        wincondition == "x74H"
-    elif board.width == 12:
-        wincondition == "x105H"
+    elif board.height == 9:
+        wincondition = "x74H"
+    elif board.height == 12:
+        wincondition = "x105H"
 
     # create starting node in archive
     stringStartingConfiguration = board.get_string(configuration)
