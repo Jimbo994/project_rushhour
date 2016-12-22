@@ -141,7 +141,7 @@ def Willekeur(configuration):
     archive[stringStartingConfiguration] = None
 
     while len(queue) > 0:
-        if counter > 650:
+        if counter > 200:
             break
         current_configuration = queue.pop()
         counter += 1
@@ -206,12 +206,12 @@ if __name__ == '__main__':
             configuration.append(vehicle)
 
         # create board
-        board = Board(9, 9, configuration)
+        board = Board(12, 12, configuration)
         print board
 
         results = []
         # run algorithme
-        for i in range(0, 10000):
+        for i in range(0, 100000):
             print "Current iteration: ", i
             result = (Willekeur(configuration))
             if result != None:
