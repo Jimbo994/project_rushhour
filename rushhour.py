@@ -1,4 +1,4 @@
-import sys, copy, breadthfirst, depthfirst#, willekeur
+import sys, copy, breadthfirst, depthfirst, random
 from datetime import datetime
 from collections import deque
 
