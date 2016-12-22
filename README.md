@@ -75,15 +75,15 @@ Making a custom board
 
 *example of a configuration*
 ```
-aCAV<br>
-ADAH<br>
-bFAV<br>
-xDCH<br>
-cDDV<br>
-BEDH<br>
-CAEV<br>
-DBEH<br>
-EEFH<br>
+aCAV
+ADAH
+bFAV
+xDCH
+cDDV
+BEDH
+CAEV
+DBEH
+EEFH
 ```
 
 By
