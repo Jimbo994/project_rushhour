@@ -1,6 +1,7 @@
 ## Project Rush Hour
 
 The goal of this project was to write algorithms that could solve a number of Rush Hour boards ranging from size 6x6 to 12x12.
+Further specifications of this project can be seen at [case](http://heuristieken.nl/wiki/index.php?title=Rush_Hour)
 A Breadth First Search, Limited Depth First and Random algorithm were implemented.
 Breadth First Search is able to solve problems 1 untill 6. But has not been able to solve problem 7 yet.
 Running 9x9 Rush hour boards on Breadth first may take several hours.
@@ -27,9 +28,9 @@ python rushhour.py algorithm problems/problem
 ```
 where algorithm can be: 
 ```
- * breadthfirst
- * random
- * depthfirst
+  breadthfirst
+  random
+  depthfirst
 ```
 where problem can be
 ```
