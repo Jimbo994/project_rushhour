@@ -60,9 +60,9 @@ def DepthFirst(board, configuration):
                 for j in range(0, len(string)):
                     if solution[i][j] != solution[i + 1][j]:
                         if str.isalpha(solution[i][j - 1]):
-                            print "Move", solution[i + 1][j - 1], "from", solution[i + 1][j] +','+ solution[i + 1][j + 1], "to", solution[i][j] +','+ solution[i][j + 1]
+                            print "Move", solution[i + 1][j - 1], "from", solution[i][j] +','+ solution[i][j + 1], "to", solution[i + 1][j] +','+ solution[i + 1][j + 1]
                         else:
-                            print "Move", solution[i + 1][j - 2], "from", solution[i + 1][j - 1] +','+ solution[i + 1][j], "to", solution[i][j - 1] +','+ solution[i][j]
+                            print "Move", solution[i + 1][j - 2], "from", solution[i][j - 1] +','+ solution[i][j], "to", solution[i + 1][j - 1] +','+ solution[i + 1][j]
             return steps_taken, counter
 
        # check if we have not exceeded depth yet.
