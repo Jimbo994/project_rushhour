@@ -1,11 +1,11 @@
-from willekeur import Vehicle
-from willekeur import Board
+from visualisation import Vehicle
+from visualisation import Board
 
 from time import sleep
 import time
 
 class BoardVisualization:
-    """Visualisation for boards"""
+    # visualisation of the game just won (visualisation.py is run with breadthfirst)
     def __init__(self, stringChildConfiguration, archive, board):
         self.stringChildConfiguration = stringChildConfiguration
         self.archive = archive
@@ -28,7 +28,7 @@ class BoardVisualization:
             parent = archive[parent]
             child_array.insert(z, child)
             parent_array.insert(z, parent)
-            z+=1
+            z += 1
 
         # check string for different position of cars
         children = len(child_array)-1
@@ -56,18 +56,17 @@ class BoardVisualization:
                     print("\033[2J")
 
                     if str.isalpha(parent[i - 1]):
-                        print "move", child[i-1], "from", child[i]+','+child[i+1], "to", parent[i]+','+parent[i+1], '\n'
+                        print "move", child[i - 1], "from", child[i] +','+ child[i + 1], "to", parent[i] +','+ parent[i + 1], '\n'
                     else:
-                        print "move", child[i-2], "from", child[i-1]+','+child[i], "to", parent[i-1]+','+parent[i], '\n'
+                        print "move", child[i - 2], "from", child[i - 1] +','+ child[i], "to", parent[i - 1] +','+ parent[i], '\n'
 
                     print block
 
                     print "Aantal stappen gezet:", steps_taken, '\n'
                     print "Aantal seconden:", time.clock() - t0, '\n'
-                    steps_taken += 1
-
                     sleep(0.6)
 
+                    steps_taken += 1
 
                     if children == 0:
                         configuration = []

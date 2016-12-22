@@ -178,15 +178,6 @@ if __name__ == '__main__':
         board = Board(6, 6, configuration)
         print board
         print("\033[2J")
-        begintime = datetime.now()
-        print "Begintijd:", begintime
 
         # run algorithme
         counter = BreadthFirst(board, configuration)
-
-        # print results
-        endtime = datetime.now()
-        # print "Eindtijd:", endtime
-        # print "Totale runtijd:", endtime - begintime
-        # print "Aantal stappen gezet:", steps_taken
-        # print "Aantal bezochte configuraties:", counter

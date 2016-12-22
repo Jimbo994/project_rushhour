@@ -6,7 +6,7 @@ def BreadthFirst(board, configuration):
     archive = {}
     counter = 0
     steps_taken = 0
-    wincondition = ""
+    solution = []
     queue = deque([configuration])
 
     # create wincondition
@@ -33,20 +33,29 @@ def BreadthFirst(board, configuration):
         stringCurrentConfiguration = board.get_string(current_configuration)
         if wincondition in stringCurrentConfiguration:
             parent = archive[stringCurrentConfiguration]
+            solution.append(stringCurrentConfiguration)
 
             # create solution
             while archive[parent] != None:
                 child = parent
+                # create solution
+                solution.insert(0, parent)
                 parent = archive[parent]
-
-                # check string for different position of cars
-                for i in range(len(child)):
-                    if parent[i] != child[i] and str.isalpha(parent[i - 1]):
-                        print "from", child[i - 1:i + 3], "to", parent[i - 1:i + 3]
-                    elif parent[i] != child[i]:
-                        print "from", child[i - 2:i + 2], "to", parent[i - 2:i + 2]
-                # update steps_taken
                 steps_taken += 1
+
+            # add first step
+            solution.insert(0, parent)
+            steps_taken += 1
+            
+            # print solution
+            for i in range(0, len(solution) - 1):
+                string = solution[i]
+                for j in range(0, len(string)):
+                    if solution[i][j] != solution[i + 1][j]:
+                        if str.isalpha(solution[i][j - 1]):
+                            print "Move", solution[i + 1][j - 1], "from", solution[i + 1][j] +','+ solution[i + 1][j + 1], "to", solution[i][j] +','+ solution[i][j + 1]
+                        else:
+                            print "Move", solution[i + 1][j - 2], "from", solution[i + 1][j - 1] +','+ solution[i + 1][j], "to", solution[i][j - 1] +','+ solution[i][j]
             return steps_taken, counter
 
         # get moves of current configuration
