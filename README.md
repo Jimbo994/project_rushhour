@@ -27,9 +27,9 @@ python rushhour.py algorithm problems/problem
 ```
 where algorithm can be: 
 ```
-  breadthfirst
-  random
-  depthfirst
+ * breadthfirst
+ * random
+ * depthfirst
 ```
 where problem can be
 ```
