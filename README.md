@@ -1,5 +1,5 @@
 ## Project Rush Hour
-The goal of this project was to write algorithms that could solve a number of [Rush Hour](https://en.wikipedia.org/wiki/Rush_Hour_(board_game) (https://en.wikipedia.org/wiki/Rush_Hour_(board_game) boards ranging from size 6x6 to 12x12.
+The goal of this project was to write algorithms that could solve a number of [Rush Hour](https://en.wikipedia.org/wiki/Rush_Hour) boards ranging from size 6x6 to 12x12.
 Further specifications of this project can be seen at the [website](http://heuristieken.nl/wiki/index.php?title=Rush_Hour) of our project.<br>
 We have implemented a Breadth-first, Limited Depth-first and Random algorithm.
 Our Breadth-first algorithm is able to solve problems 1 through 6, but has not been able to solve problem 7 within a reasonable time. Running 9 x 9 Rush Hour boards with this algorithm may take several hours.
