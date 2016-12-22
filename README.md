@@ -1,17 +1,14 @@
 ## Project Rush Hour
+The goal of this project was to write algorithms that could solve a number of Rush Hour (https://en.wikipedia.org/wiki/Rush_Hour_(board_game) boards ranging from size 6x6 to 12x12.
+Further specifications of this project can be seen at the [website](http://heuristieken.nl/wiki/index.php?title=Rush_Hour) of our project.<br>
+We have implemented a Breadth-first, Limited Depth-first and Random algorithm.
+Our Breadth-first algorithm is able to solve problems 1 through 6, but has not been able to solve problem 7 within a reasonable time. Running 9 x 9 Rush Hour boards with this algorithm may take several hours.
+The Random algorithm is able to solve all problems, but since it is random these may not be the best solutions.
+The Limited Depth-first, while working, is not advisable to use to solve Rush Hour boards.
 
-The goal of this project was to write algorithms that could solve a number of [Rush Hour](https://en.wikipedia.org/wiki/Rush_Hour_(board_game) boards ranging from size 6x6 to 12x12.
-Further specifications of this project can be seen at [Case](http://heuristieken.nl/wiki/index.php?title=Rush_Hour).<br>
-A Breadth First Search, Limited Depth First and Random algorithm were implemented.
-Breadth First Search is able to solve problems 1 untill 6. But has not been able to solve problem 7 yet.
-Running 9x9 Rush hour boards on Breadth first may take several hours.
-Random is able to solve all problems, but since it is random these may not be the best solutions.
-Limited Depth-first is not advisable to use to solve Rush hour boards.
+Custom boards can also be created (see custom boards conditions below). Small adjustments need to be made in the code to run any custom board with other dimensions than 6x6, 9x9 and 12x12.
 
-Custom boards can also be created. See custom boards conditions below.
-Small adjustments to code needs to be made to run those custom boards at other dimensions than 6x6, 9x9 and 12x12.
-
-Make sure to install python before you start.
+Make sure to install Python before you start.
 
 **Installation**
 
@@ -20,7 +17,7 @@ Make sure to install python before you start.
 Usage
 ---
 
-The "rushhour.py" file contains a a general purpose Vehicle and Board class. And also acts as a script
+The "rushhour.py" file contains a general purpose Vehicle and Board class. It also acts as a script
 that accepts command line arguments to choose the wanted algorithm and problem. Problems are provided in the problems directory.<br>
 rushhour.py can be run with:
 ```
@@ -34,10 +31,10 @@ where algorithm can be:
 ```
 where problem can be
 ```
-1,2,3,4,5,6 or 7.
+1, 2, 3, 4, 5, 6 or 7.
 ```
 
-rushhour.py will then transform a problem into a board and solve it
+rushhour.py will then transform a problem into a board and solve it. This is an example of such a board:
 ```
 _ _ a A A b
 _ _ a _ _ b
@@ -49,7 +46,7 @@ C _ _ c E E
 
 Visualisation
 ---
-A simple visualisation was implemented for breadth first search since this algorithm gives best results.
+A simple visualisation was implemented for Breadth-first search since this algorithm gives the best results.
 visualisation.py can be run as follows:
 
 ```
