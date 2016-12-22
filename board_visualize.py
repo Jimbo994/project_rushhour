@@ -1,7 +1,8 @@
-from breadthfirst import Vehicle
-from breadthfirst import Board
+from willekeur import Vehicle
+from willekeur import Board
 
 from time import sleep
+import time
 
 class BoardVisualization:
     """Visualisation for boards"""
@@ -17,6 +18,10 @@ class BoardVisualization:
         z = 0
 
         steps_taken = 0
+
+        t0 = time.clock()
+        print time.clock() - t0, "seconds"
+
         # create solution
         while archive[parent] != None:
             child = parent
@@ -51,16 +56,18 @@ class BoardVisualization:
                     print("\033[2J")
 
                     if str.isalpha(parent[i - 1]):
-                        print "move", parent[i-1], "from", parent[i:i+2], "to", child[i:i+2], '\n'
+                        print "move", child[i-1], "from", child[i]+','+child[i+1], "to", parent[i]+','+parent[i+1], '\n'
                     else:
-                        print "move", parent[i-2], "from", parent[i-1:i+1], "to", child[i-1:i+1], '\n'
+                        print "move", child[i-2], "from", child[i-1]+','+child[i], "to", parent[i-1]+','+parent[i], '\n'
 
                     print block
 
-                    print "Aantal stappen gezet:", steps_taken
+                    print "Aantal stappen gezet:", steps_taken, '\n'
+                    print "Aantal seconden:", time.clock() - t0, '\n'
                     steps_taken += 1
 
-                    sleep(1)
+                    sleep(0.6)
+
 
                     if children == 0:
                         configuration = []
@@ -78,15 +85,12 @@ class BoardVisualization:
                             block = block + '{0}\n'.format(' '.join(line))
 
                         print("\033[2J")
+
                         print block
-                        print "Aantal stappen gezet:", steps_taken
+                        print "Aantal stappen gezet:", steps_taken, '\n'
+                        print "Aantal seconden:", time.clock() - t0, '\n'
 
                         steps_taken += 1
-                        sleep(1)
+                        sleep(0.6)
 
                     children -= 1
-
-        last_child = child_array[len(child_array) - 1]
-        first_child = parent_array[0]
-        print "FIRST", first_child
-        print "LAST", last_child
