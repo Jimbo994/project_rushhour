@@ -1,6 +1,8 @@
 from collections import deque
 
 # https://jeremykun.com/tag/breadth-first-search/
+
+
 def BreadthFirst(board, configuration):
     # create archive, queue & counters
     archive = {}
@@ -38,27 +40,26 @@ def BreadthFirst(board, configuration):
             # create solution
             while archive[parent] != None:
                 child = parent
-                # create solution
                 solution.insert(0, parent)
                 parent = archive[parent]
                 steps_taken += 1
 
-            # add first step
+            # add the first step
             solution.insert(0, parent)
             steps_taken += 1
 
-            # print solution
+            # print final solution
             for i in range(0, len(solution) - 1):
                 string = solution[i]
                 for j in range(0, len(string)):
                     if solution[i][j] != solution[i + 1][j]:
                         if str.isalpha(solution[i][j - 1]):
-                            print "Move", solution[i + 1][j - 1], "from", solution[i][j] +','+ solution[i][j + 1], "to", solution[i + 1][j] +','+ solution[i + 1][j + 1]
+                            print "Move", solution[i + 1][j - 1], "from", solution[i][j], ',', solution[i][j + 1], "to", solution[i + 1][j], ',', solution[i + 1][j + 1]
                         else:
-                            print "Move", solution[i + 1][j - 2], "from", solution[i][j - 1] +','+ solution[i][j], "to", solution[i + 1][j - 1] +','+ solution[i + 1][j]
+                            print "Move", solution[i + 1][j - 2], "from", solution[i][j - 1], ',', solution[i][j], "to", solution[i + 1][j - 1], ',', solution[i + 1][j]
             return steps_taken, counter
 
-        # get moves of current configuration
+        # get possible moves of current configuration
         for children in board.get_moves(current_configuration):
             stringChildConfiguration = board.get_string(children)
             if stringChildConfiguration not in archive:
